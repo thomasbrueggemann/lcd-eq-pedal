@@ -1,16 +1,16 @@
 #include "LCD.h"
 
-LCD::LCD(int8_t LCD_DIN, int8_t LCD_SCLK, int8_t LCD_A0, int8_t LCD_RESET, int8_t LCD_CS) 
+LCD::LCD() 
   : display(LCD_DIN, LCD_SCLK, LCD_A0, LCD_RESET, LCD_CS)
 {
 }
 
-void LCD::begin()
+void LCD::Begin()
 {
 	display.begin(13);
 }
 
-void LCD::draw(AnalogPotValues &analogPotValues, int bank)
+void LCD::Draw(AnalogPotValues &analogPotValues, int bank)
 {
 	display.clearDisplay();
 
@@ -24,7 +24,7 @@ void LCD::draw(AnalogPotValues &analogPotValues, int bank)
 	display.setTextSize(3);
 	display.setTextColor(ST7565_ON);
 	display.setCursor(105, CENTER - 10);
-	display.println(F("1"));
+	display.println(bank);
 
 	drawBar(0, analogPotValues.Bass);
 	drawBar(25, analogPotValues.Middle);

@@ -5,13 +5,23 @@
 #define TREBLE_PIN A2
 #define VOLUME_PIN A3
 
+AnalogPots::AnalogPots() : bassPot(BASS_PIN, true), middlePot(MIDDLE_PIN, true), treblePot(TREBLE_PIN, true), volumePot(VOLUME_PIN, true)
+{
+}
+
 AnalogPotValues AnalogPots::Read()
 {
-	AnalogPotValues values;
-	values.Bass = analogRead(BASS_PIN);
-	values.Middle = analogRead(MIDDLE_PIN);
-	values.Treble = analogRead(TREBLE_PIN);
-	values.Volume = analogRead(VOLUME_PIN);
+	return {
+		bassPot.getValue(),
+		middlePot.getValue(),
+		treblePot.getValue(),
+		volumePot.getValue()};
+}
 
-	return values;
+void AnalogPots::Tick()
+{
+	bassPot.update();
+	middlePot.update();
+	treblePot.update();
+	volumePot.update();
 }

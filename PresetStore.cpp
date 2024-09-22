@@ -35,7 +35,7 @@ void PresetStore::WritePreset(byte bank, byte preset, Preset &payload)
 	EEPROM.update(startingAddress + VOLUME_ADDRESS, payload.Volume);
 	EEPROM.update(startingAddress + AMPSWITCH_ADDRESS, payload.AmpSwitch);
 	EEPROM.update(startingAddress + LOOP1_ADDRESS, payload.Loop1);
-  EEPROM.update(startingAddress + LOOP2_ADDRESS, payload.Loop2);
+	EEPROM.update(startingAddress + LOOP2_ADDRESS, payload.Loop2);
 }
 
 Preset PresetStore::ReadPreset(byte bank, byte preset)
@@ -49,7 +49,7 @@ Preset PresetStore::ReadPreset(byte bank, byte preset)
 	EEPROM.get(startingAddress + VOLUME_ADDRESS, p.Volume);
 	EEPROM.get(startingAddress + AMPSWITCH_ADDRESS, p.AmpSwitch);
 	EEPROM.get(startingAddress + LOOP1_ADDRESS, p.Loop1);
-  EEPROM.get(startingAddress + LOOP2_ADDRESS, p.Loop2);
+	EEPROM.get(startingAddress + LOOP2_ADDRESS, p.Loop2);
 
 	return p;
 }
