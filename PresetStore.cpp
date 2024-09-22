@@ -6,13 +6,13 @@
 
 EEPROM address format
 ----------------------
-0 = cut, preset 0, bank 0
-1 = bass
-2 = mid
-3 = treble
-4 = boost
-5 = ampswitch
-6 reserved
+0 = bass, preset 0, bank 0
+1 = mid
+2 = treble
+3 = boost
+4 = ampswitch
+5 = loop 1
+6 = loop 2
 7 reserved
 8 reserved
 9 reserved
@@ -29,12 +29,13 @@ void PresetStore::WritePreset(byte bank, byte preset, Preset &payload)
 {
 	int startingAddress = getStartingAddress(bank, preset);
 
-	EEPROM.update(startingAddress + CUT_ADDRESS, payload.Cut);
 	EEPROM.update(startingAddress + BASS_ADDRESS, payload.Bass);
 	EEPROM.update(startingAddress + MIDDLE_ADDRESS, payload.Middle);
 	EEPROM.update(startingAddress + TREBLE_ADDRESS, payload.Treble);
-	EEPROM.update(startingAddress + BOOST_ADDRESS, payload.Boost);
+	EEPROM.update(startingAddress + VOLUME_ADDRESS, payload.Volume);
 	EEPROM.update(startingAddress + AMPSWITCH_ADDRESS, payload.AmpSwitch);
+	EEPROM.update(startingAddress + LOOP1_ADDRESS, payload.Loop1);
+  EEPROM.update(startingAddress + LOOP2_ADDRESS, payload.Loop2);
 }
 
 Preset PresetStore::ReadPreset(byte bank, byte preset)
@@ -42,12 +43,13 @@ Preset PresetStore::ReadPreset(byte bank, byte preset)
 	Preset p;
 
 	int startingAddress = getStartingAddress(bank, preset);
-	EEPROM.get(startingAddress + CUT_ADDRESS, p.Cut);
 	EEPROM.get(startingAddress + BASS_ADDRESS, p.Bass);
 	EEPROM.get(startingAddress + MIDDLE_ADDRESS, p.Middle);
 	EEPROM.get(startingAddress + TREBLE_ADDRESS, p.Treble);
-	EEPROM.get(startingAddress + BOOST_ADDRESS, p.Boost);
+	EEPROM.get(startingAddress + VOLUME_ADDRESS, p.Volume);
 	EEPROM.get(startingAddress + AMPSWITCH_ADDRESS, p.AmpSwitch);
+	EEPROM.get(startingAddress + LOOP1_ADDRESS, p.Loop1);
+  EEPROM.get(startingAddress + LOOP2_ADDRESS, p.Loop2);
 
 	return p;
 }

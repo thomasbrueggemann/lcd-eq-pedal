@@ -1,8 +1,8 @@
 #include "LCD.h"
 
-LCD::LCD(int LCD_DIN, int LCD_SCLK, int LCD_A0, int LCD_RESET, int LCD_CS)
+LCD::LCD(int8_t LCD_DIN, int8_t LCD_SCLK, int8_t LCD_A0, int8_t LCD_RESET, int8_t LCD_CS) 
+  : display(LCD_DIN, LCD_SCLK, LCD_A0, LCD_RESET, LCD_CS)
 {
-	display = ST7565_LCD(LCD_DIN, LCD_SCLK, LCD_A0, LCD_RESET, LCD_CS);
 }
 
 void LCD::begin()
@@ -24,12 +24,12 @@ void LCD::draw(AnalogPotValues &analogPotValues, int bank)
 	display.setTextSize(3);
 	display.setTextColor(ST7565_ON);
 	display.setCursor(105, CENTER - 10);
-	display.println(F(bank));
+	display.println(F("1"));
 
-	drawBar(0, analogPotValues->Bass);
-	drawBar(25, analogPotValues->Mid);
-	drawBar(50, analogPotValues->Treble);
-	drawBar(75, analogPotValues->Volume);
+	drawBar(0, analogPotValues.Bass);
+	drawBar(25, analogPotValues.Middle);
+	drawBar(50, analogPotValues.Treble);
+	drawBar(75, analogPotValues.Volume);
 
 	// axis
 	display.drawLine(0, CENTER, 90, CENTER, ST7565_ON);

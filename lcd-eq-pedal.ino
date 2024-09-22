@@ -20,8 +20,8 @@ void setup()
 
 void loop()
 {
-	auto analogPotValues = analogPots.read();
-	display.draw(&analogPotValues, 1);
+	auto analogPotValues = analogPots.Read();
+	display.draw(analogPotValues, 1);
 
 	delay(10);
 }
