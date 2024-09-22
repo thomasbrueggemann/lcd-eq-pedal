@@ -4,23 +4,23 @@
 #include <Arduino.h>
 
 #define MAX_BANKS 10
-#define MAX_PRESETS 4
+#define MAX_PRESETS 3
 
 class Banks
 {
 public:
 	Banks();
 
-	void SetPreset(byte preset);
+	void SetPreset(int preset);
 	void BankUp();
 	void BankDown();
 
-	byte GetCurrentBank();
-	byte GetCurrentPreset();
+	int GetCurrentBank();
+	int GetCurrentPreset();
 
 private:
-	byte currentBank;
-	byte currentPreset;
+	int currentBank;
+	int currentPreset;
 };
 
 #endif

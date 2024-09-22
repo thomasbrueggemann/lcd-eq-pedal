@@ -4,6 +4,8 @@
 #include <Arduino.h>
 #include <OneButton.h>
 
+#include "Banks.h"
+
 #define LONG_PRESS_THRESHOLD 1000
 #define LED_BLINK_TIMES 4
 #define LED_BLINK_DELAY 80
@@ -19,7 +21,7 @@
 class Footswitches
 {
 public:
-	Footswitches();
+	Footswitches(Banks &banks);
 
 	void Tick();
 
@@ -28,8 +30,12 @@ private:
 	OneButton footswitch2;
 	OneButton footswitch3;
 
+	Banks &banks;
+
 	void handlePress(int footswitchIndex);
 	void handleLongPress(int footswitchIndex);
+	void handleDoubleClick(int footswitchIndex);
+
 	void toggleLeds(int footswitchIndex);
 	void blinkLeds(int footswitchIndex);
 	void blinkLed(int ledPin);

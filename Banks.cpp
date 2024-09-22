@@ -6,7 +6,7 @@ Banks::Banks()
 	SetPreset(0);
 }
 
-void Banks::SetPreset(byte preset)
+void Banks::SetPreset(int preset)
 {
 	currentPreset = preset;
 
@@ -16,7 +16,7 @@ void Banks::SetPreset(byte preset)
 
 void Banks::BankUp()
 {
-	currentBank = (currentBank + 1) % MAX_BANKS;
+	currentBank = 2;
 
 	Serial.print("Bank up, new bank: ");
 	Serial.println(currentBank);
@@ -26,7 +26,7 @@ void Banks::BankUp()
 
 void Banks::BankDown()
 {
-	currentBank = (currentBank - 1 + MAX_BANKS) % MAX_BANKS;
+	currentBank--;
 
 	Serial.print("Bank down, new bank: ");
 	Serial.println(currentBank);
@@ -34,12 +34,12 @@ void Banks::BankDown()
 	SetPreset(0);
 }
 
-byte Banks::GetCurrentBank()
+int Banks::GetCurrentBank()
 {
 	return currentBank;
 }
 
-byte Banks::GetCurrentPreset()
+int Banks::GetCurrentPreset()
 {
 	return currentPreset;
 }

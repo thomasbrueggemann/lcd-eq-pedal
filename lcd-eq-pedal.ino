@@ -8,7 +8,7 @@
 LCD lcd;
 AnalogPots analogPots;
 Banks banks;
-Footswitches footswitches;
+Footswitches footswitches(banks);
 
 void setup()
 {
@@ -19,7 +19,7 @@ void setup()
 void loop()
 {
 	auto analogPotValues = analogPots.Read();
-	lcd.Draw(analogPotValues, banks.GetCurrentBank() + 1);
+	lcd.Draw(analogPotValues, banks.GetCurrentBank());
 
 	analogPots.Tick();
 	footswitches.Tick();
