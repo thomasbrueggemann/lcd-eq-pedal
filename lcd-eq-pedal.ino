@@ -4,11 +4,13 @@
 #include "AnalogPots.h"
 #include "Banks.h"
 #include "Footswitches.h"
+#include "PresetStore.h"
 
 LCD lcd;
 AnalogPots analogPots;
 Banks banks;
-Footswitches footswitches(banks);
+PresetStore presetStore;
+Footswitches footswitches(banks, presetStore);
 
 void setup()
 {
@@ -19,6 +21,13 @@ void setup()
 void loop()
 {
 	auto analogPotValues = analogPots.Read();
+
+	auto currentPreset = presetStore.GetCurrentPreset();
+	if (currentPreset != nullptr)
+	{
+		auto presetAnalogPotValues = currentPreset.GetAnalogPotValues();
+	}
+
 	lcd.Draw(analogPotValues, banks.GetCurrentBank());
 
 	analogPots.Tick();

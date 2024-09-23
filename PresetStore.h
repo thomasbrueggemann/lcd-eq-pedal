@@ -20,11 +20,13 @@ class PresetStore
 public:
 	PresetStore();
 
-	void WritePreset(byte bank, byte preset, Preset &payload);
-	Preset ReadPreset(byte bank, byte preset);
+	void Write(int bank, int preset, Preset &payload);
+	Preset Read(int bank, int preset);
+	Preset GetCurrentPreset();
 
 private:
-	int getStartingAddress(byte bank, byte preset);
+	int getStartingAddress(int bank, int preset);
+	Preset currentPreset;
 };
 
 #endif // PRESETSTORE_H

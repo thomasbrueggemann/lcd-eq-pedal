@@ -1,10 +1,12 @@
 #include "Footswitches.h"
 
-Footswitches::Footswitches(Banks &banks)
+Footswitches::Footswitches(Banks &bank, PresetStore &presetStore, AnalogPots &analogPots)
 	: footswitch1(FOOTSWITCH_1_PIN, true, true),
 	  footswitch2(FOOTSWITCH_2_PIN, true, true),
 	  footswitch3(FOOTSWITCH_3_PIN, true, true),
-	  banks(banks)
+	  banks(banks),
+	  presetStore(presetStore),
+	  analogPots(analogPots)
 {
 	pinMode(FOOTSWITCH_1_LED_PIN, OUTPUT);
 	pinMode(FOOTSWITCH_2_LED_PIN, OUTPUT);
@@ -47,11 +49,18 @@ void Footswitches::Tick()
 
 void Footswitches::handlePress(int footswitchIndex)
 {
-	Serial.print("Pressed ");
-	Serial.println(footswitchIndex);
+	// press is only available on the current preset
+	if (footswitchIndex != banks.GetCurrentPreset())
+	{
+		return;
+	}
 
 	banks.SetPreset(footswitchIndex);
 	toggleLeds(footswitchIndex);
+
+	// load the preset
+	auto preset = presetStore.Read(banks.GetCurrentBank(), banks.GetCurrentPreset());
+	preset.Print();
 }
 
 void Footswitches::handleLongPress(int footswitchIndex)
@@ -62,17 +71,16 @@ void Footswitches::handleLongPress(int footswitchIndex)
 		return;
 	}
 
-	Serial.print("Long Pressed ");
-	Serial.println(footswitchIndex);
+	auto analogPotValues = analogPots.Read();
+	auto preset = Preset(analogPotValues);
+
+	presetStore.Write(banks.GetCurrentBank(), banks.GetCurrentPreset(), preset);
 
 	blinkLeds(footswitchIndex);
 }
 
 void Footswitches::handleDoubleClick(int footswitchIndex)
 {
-	Serial.print("Double Clicked ");
-	Serial.println(footswitchIndex);
-
 	if (footswitchIndex == 0)
 	{
 		banks.BankDown();

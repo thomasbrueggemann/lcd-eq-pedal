@@ -5,6 +5,8 @@
 #include <OneButton.h>
 
 #include "Banks.h"
+#include "PresetStore.h"
+#include "AnalogPots.h"
 
 #define LONG_PRESS_THRESHOLD 1000
 #define LED_BLINK_TIMES 4
@@ -21,7 +23,7 @@
 class Footswitches
 {
 public:
-	Footswitches(Banks &banks);
+	Footswitches(Banks &banks, PresetStore &presetStore, AnalogPots &analogPots);
 
 	void Tick();
 
@@ -31,6 +33,8 @@ private:
 	OneButton footswitch3;
 
 	Banks &banks;
+	PresetStore &presetStore;
+	AnalogPots &analogPots;
 
 	void handlePress(int footswitchIndex);
 	void handleLongPress(int footswitchIndex);
