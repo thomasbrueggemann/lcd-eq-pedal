@@ -17,25 +17,25 @@ Footswitches::Footswitches(Banks &banks)
 
 	// press event handlers
 	footswitch1.attachClick([](void *ctx)
-							{ ((Footswitches *)(ctx))->handlePress(0); });
+							{ ((Footswitches *)(ctx))->handlePress(0); }, this);
 	footswitch2.attachClick([](void *ctx)
-							{ ((Footswitches *)(ctx))->handlePress(1); });
+							{ ((Footswitches *)(ctx))->handlePress(1); }, this);
 	footswitch3.attachClick([](void *ctx)
-							{ ((Footswitches *)(ctx))->handlePress(2); });
+							{ ((Footswitches *)(ctx))->handlePress(2); }, this);
 
 	// long press event handlers
 	footswitch1.attachLongPressStart([](void *ctx)
-									 { ((Footswitches *)(ctx))->handleLongPress(0); });
+									 { ((Footswitches *)(ctx))->handleLongPress(0); }, this);
 	footswitch2.attachLongPressStart([](void *ctx)
-									 { ((Footswitches *)(ctx))->handleLongPress(1); });
+									 { ((Footswitches *)(ctx))->handleLongPress(1); }, this);
 	footswitch3.attachLongPressStart([](void *ctx)
-									 { ((Footswitches *)(ctx))->handleLongPress(2); });
+									 { ((Footswitches *)(ctx))->handleLongPress(2); }, this);
 
 	// double click event handlers (only for footswitch 1 and 3, to handle the banking)
 	footswitch1.attachDoubleClick([](void *ctx)
-								  { ((Footswitches *)(ctx))->handleDoubleClick(0); });
+								  { ((Footswitches *)(ctx))->handleDoubleClick(0); }, this);
 	footswitch3.attachDoubleClick([](void *ctx)
-								  { ((Footswitches *)(ctx))->handleDoubleClick(2); });
+								  { ((Footswitches *)(ctx))->handleDoubleClick(2); }, this);
 }
 
 void Footswitches::Tick()
@@ -56,6 +56,12 @@ void Footswitches::handlePress(int footswitchIndex)
 
 void Footswitches::handleLongPress(int footswitchIndex)
 {
+	// long press is only available on the current preset
+	if (footswitchIndex != banks.GetCurrentPreset())
+	{
+		return;
+	}
+
 	Serial.print("Long Pressed ");
 	Serial.println(footswitchIndex);
 
