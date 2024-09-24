@@ -58,7 +58,6 @@ void Footswitches::handlePress(int footswitchIndex)
 	banks.SetPreset(footswitchIndex);
 	toggleLeds(footswitchIndex);
 
-	// load the preset
 	auto preset = presetStore.Read(banks.GetCurrentBank(), banks.GetCurrentPreset());
 	editTracker.SetPreset(preset);
 
