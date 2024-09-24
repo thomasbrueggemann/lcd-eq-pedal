@@ -1,8 +1,9 @@
 #ifndef PRESETSTORE_H
 #define PRESETSTORE_H
 
-#include "Preset.h"
 #include <Arduino.h>
+
+#include "Preset.h"
 
 #define NUM_PRESETS_PER_BANK 4
 #define NUM_BYTES_PER_PRESET 12
@@ -18,15 +19,11 @@
 class PresetStore
 {
 public:
-	PresetStore();
-
 	void Write(int bank, int preset, Preset &payload);
 	Preset Read(int bank, int preset);
-	Preset GetCurrentPreset();
 
 private:
 	int getStartingAddress(int bank, int preset);
-	Preset currentPreset;
 };
 
 #endif // PRESETSTORE_H

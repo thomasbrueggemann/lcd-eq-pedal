@@ -6,7 +6,7 @@
 
 #include "Banks.h"
 #include "PresetStore.h"
-#include "AnalogPots.h"
+#include "EditTracker.h"
 
 #define LONG_PRESS_THRESHOLD 1000
 #define LED_BLINK_TIMES 4
@@ -23,7 +23,7 @@
 class Footswitches
 {
 public:
-	Footswitches(Banks &banks, PresetStore &presetStore, AnalogPots &analogPots);
+	Footswitches(Banks &banks, PresetStore &presetStore, EditTracker &editTracker);
 
 	void Tick();
 
@@ -34,7 +34,7 @@ private:
 
 	Banks &banks;
 	PresetStore &presetStore;
-	AnalogPots &analogPots;
+	EditTracker &editTracker;
 
 	void handlePress(int footswitchIndex);
 	void handleLongPress(int footswitchIndex);

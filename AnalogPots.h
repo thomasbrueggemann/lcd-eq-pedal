@@ -9,17 +9,16 @@
 class AnalogPots
 {
 public:
-  AnalogPots();
-	AnalogPotValues Read();
+	AnalogPots();
 
-  void Tick();
+	AnalogPotValues Read();
+	void Tick();
 
 private:
-  ResponsiveAnalogRead bassPot;
-  ResponsiveAnalogRead middlePot;
-  ResponsiveAnalogRead treblePot;
-  ResponsiveAnalogRead volumePot;
-
+	ResponsiveAnalogRead bassPot;
+	ResponsiveAnalogRead middlePot;
+	ResponsiveAnalogRead treblePot;
+	ResponsiveAnalogRead volumePot;
 };
 
 #endif // ANALOGPOTS_H

@@ -4,7 +4,7 @@
 #include <Adafruit_GFX.h>
 #include <ST7565_LCD.h>
 
-#include "AnalogPotValues.h"
+#include "Preset.h"
 
 #define LCD_DIN 9
 #define LCD_SCLK 8
@@ -21,12 +21,12 @@ public:
 	LCD();
 
 	void Begin();
-	void Draw(AnalogPotValues &analogPotValues, int bank);
+	void Draw(Preset &preset, int bank);
 
 private:
 	ST7565_LCD display;
 
-  void drawBar(int xPos, int potValue);
+	void drawBar(int xPos, int potValue);
 };
 
 #endif // DISPLAY_H

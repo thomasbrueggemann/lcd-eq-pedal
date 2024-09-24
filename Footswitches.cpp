@@ -1,12 +1,12 @@
 #include "Footswitches.h"
 
-Footswitches::Footswitches(Banks &bank, PresetStore &presetStore, AnalogPots &analogPots)
+Footswitches::Footswitches(Banks &bank, PresetStore &presetStore, EditTracker &editTracker)
 	: footswitch1(FOOTSWITCH_1_PIN, true, true),
 	  footswitch2(FOOTSWITCH_2_PIN, true, true),
 	  footswitch3(FOOTSWITCH_3_PIN, true, true),
 	  banks(banks),
 	  presetStore(presetStore),
-	  analogPots(analogPots)
+	  editTracker(editTracker)
 {
 	pinMode(FOOTSWITCH_1_LED_PIN, OUTPUT);
 	pinMode(FOOTSWITCH_2_LED_PIN, OUTPUT);
@@ -60,6 +60,8 @@ void Footswitches::handlePress(int footswitchIndex)
 
 	// load the preset
 	auto preset = presetStore.Read(banks.GetCurrentBank(), banks.GetCurrentPreset());
+	editTracker.SetPreset(preset);
+
 	preset.Print();
 }
 
@@ -71,9 +73,7 @@ void Footswitches::handleLongPress(int footswitchIndex)
 		return;
 	}
 
-	auto analogPotValues = analogPots.Read();
-	auto preset = Preset(analogPotValues);
-
+	auto preset = editTracker.GetPreset();
 	presetStore.Write(banks.GetCurrentBank(), banks.GetCurrentPreset(), preset);
 
 	blinkLeds(footswitchIndex);

@@ -5,11 +5,13 @@
 #include "Banks.h"
 #include "Footswitches.h"
 #include "PresetStore.h"
+#include "EditTracker.h"
 
 LCD lcd;
 AnalogPots analogPots;
 Banks banks;
-PresetStore presetStore;
+EditTracker editTracker;
+PresetStore presetStore(editTracker);
 Footswitches footswitches(banks, presetStore);
 
 void setup()
@@ -21,14 +23,9 @@ void setup()
 void loop()
 {
 	auto analogPotValues = analogPots.Read();
+	auto preset = editTracker.TrackChanges(analogPotValues);
 
-	auto currentPreset = presetStore.GetCurrentPreset();
-	if (currentPreset != nullptr)
-	{
-		auto presetAnalogPotValues = currentPreset.GetAnalogPotValues();
-	}
-
-	lcd.Draw(analogPotValues, banks.GetCurrentBank());
+	lcd.Draw(preset, banks.GetCurrentBank());
 
 	analogPots.Tick();
 	footswitches.Tick();

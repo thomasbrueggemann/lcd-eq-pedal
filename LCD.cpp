@@ -1,7 +1,7 @@
 #include "LCD.h"
 
-LCD::LCD() 
-  : display(LCD_DIN, LCD_SCLK, LCD_A0, LCD_RESET, LCD_CS)
+LCD::LCD()
+	: display(LCD_DIN, LCD_SCLK, LCD_A0, LCD_RESET, LCD_CS)
 {
 }
 
@@ -10,7 +10,7 @@ void LCD::Begin()
 	display.begin(13);
 }
 
-void LCD::Draw(AnalogPotValues &analogPotValues, int bank)
+void LCD::Draw(Preset &preset, int bank)
 {
 	display.clearDisplay();
 
@@ -26,10 +26,10 @@ void LCD::Draw(AnalogPotValues &analogPotValues, int bank)
 	display.setCursor(105, CENTER - 10);
 	display.println(bank);
 
-	drawBar(0, analogPotValues.Bass);
-	drawBar(25, analogPotValues.Middle);
-	drawBar(50, analogPotValues.Treble);
-	drawBar(75, analogPotValues.Volume);
+	drawBar(0, preset.Bass);
+	drawBar(25, preset.Middle);
+	drawBar(50, preset.Treble);
+	drawBar(75, preset.Volume);
 
 	// axis
 	display.drawLine(0, CENTER, 90, CENTER, ST7565_ON);

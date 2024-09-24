@@ -21,10 +21,6 @@ EEPROM address format
 
 */
 
-PresetStore::PresetStore()
-{
-}
-
 void PresetStore::Write(int bank, int preset, Preset &payload)
 {
 	int startingAddress = getStartingAddress(bank, preset);
@@ -36,8 +32,6 @@ void PresetStore::Write(int bank, int preset, Preset &payload)
 	EEPROM.update(startingAddress + AMPSWITCH_ADDRESS, payload.AmpSwitch);
 	EEPROM.update(startingAddress + LOOP1_ADDRESS, payload.Loop1);
 	EEPROM.update(startingAddress + LOOP2_ADDRESS, payload.Loop2);
-
-	currentPreset = payload;
 }
 
 Preset PresetStore::Read(int bank, int preset)
@@ -53,14 +47,7 @@ Preset PresetStore::Read(int bank, int preset)
 	EEPROM.get(startingAddress + LOOP1_ADDRESS, p.Loop1);
 	EEPROM.get(startingAddress + LOOP2_ADDRESS, p.Loop2);
 
-	currentPreset = p;
-
 	return p;
-}
-
-Preset PresetStore::GetCurrentPreset()
-{
-	return currentPreset;
 }
 
 int PresetStore::getStartingAddress(int bank, int preset)
