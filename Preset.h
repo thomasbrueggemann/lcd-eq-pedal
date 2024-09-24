@@ -2,6 +2,7 @@
 #define PRESET_H
 
 #include <Arduino.h>
+#include "AnalogPotValues.h"
 
 class Preset
 {
@@ -14,18 +15,17 @@ public:
 	bool Loop1;
 	bool Loop2;
 
-	Preset(const AnalogPotValues &values)
+  Preset() {}
+
+	Preset(AnalogPotValues &values)
 	{
 		Bass = values.Bass;
 		Middle = values.Middle;
 		Treble = values.Treble;
 		Volume = values.Volume;
-		AmpSwitch = values.AmpSwitch;
-		Loop1 = values.Loop1;
-		Loop2 = values.Loop2;
 	}
 
-	AnalogPotValues GetAnalogPotValues() const
+	AnalogPotValues GetAnalogPotValues()
 	{
 		return {Bass, Middle, Treble, Volume};
 	}
