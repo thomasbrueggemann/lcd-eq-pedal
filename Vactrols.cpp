@@ -18,22 +18,22 @@ void Vactrols::ApplyPreset(Preset &preset)
 
 void Vactrols::SetBass(int value)
 {
-	setDoubleVactrol(value, BASS_POT_CS, BASS_PWM1_PIN, BASS_PWM2_PIN, &bassMidVactrolLookup);
+	setDoubleVactrol(value, BASS_POT_CS, BASS_PWM1_PIN, BASS_PWM2_PIN, BassMiddleLookup);
 }
 
 void Vactrols::SetMiddle(int value)
 {
-	setDoubleVactrol(value, MID_POT_CS, MID_PWM1_PIN, MID_PWM2_PIN, &bassMidVactrolLookup);
+	setDoubleVactrol(value, MID_POT_CS, MID_PWM1_PIN, MID_PWM2_PIN, BassMiddleLookup);
 }
 
 void Vactrols::SetTreble(int value)
 {
-	setDoubleVactrol(value, TREBLE_POT_CS, TREBLE_PWM1_PIN, TREBLE_PWM2_PIN, &trebleVactrolLookup);
+	setDoubleVactrol(value, TREBLE_POT_CS, TREBLE_PWM1_PIN, TREBLE_PWM2_PIN, TrebleLookup);
 }
 
 void Vactrols::SetVolume(int value)
 {
-	setSingleVactrol(value, VOLUME_POT_CS, VOLUME_PWM1_PIN, &volumeVactrolLookup);
+	setSingleVactrol(value, VOLUME_POT_CS, VOLUME_PWM1_PIN, VolumeLookup);
 }
 
 void Vactrols::setSingleVactrol(int value, int csPin, int pwmPin, int vactrolLookup[256][2])
