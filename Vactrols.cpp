@@ -42,23 +42,23 @@ void Vactrols::SetVolume(int value)
 {
 	auto mappedValue = map(value, 0, 1023, 0, 255);
 
-	auto pwmValue = VolumeLookup[mappedValue];
-	auto potValue = VolumeLookup[mappedValue];
+	auto pwmValue = VolumeLookup[mappedValue][LOOKUP_PWM_IDX];
+	auto potValue = VolumeLookup[mappedValue][LOOKUP_POT_IDX];
 
 	digitalWrite(VOLUME_POT_CS, LOW);
 	SPI.transfer(ADDRESS);
 	SPI.transfer(potValue);
 	digitalWrite(VOLUME_POT_CS, HIGH);
 
-	digitalWrite(VOLUME_PWM1_PIN, pwmValue);
+	analogWrite(VOLUME_PWM1_PIN, pwmValue);
 }
 
 void Vactrols::setDoubleVactrol(int value, MCP4261 &digipot, int pwm1Pin, int pwm2Pin, int vactrolLookup[256][2])
 {
 	auto mappedValue = map(value, 0, 1023, 0, 255);
 
-	auto pwmValue = vactrolLookup[mappedValue][0];
-	auto potValue = vactrolLookup[mappedValue][1];
+	auto pwmValue = vactrolLookup[mappedValue][LOOKUP_PWM_IDX];
+	auto potValue = vactrolLookup[mappedValue][LOOKUP_POT_IDX];
 
 	Serial.print("pwmValue: ");
 	Serial.println(pwmValue);
@@ -66,12 +66,12 @@ void Vactrols::setDoubleVactrol(int value, MCP4261 &digipot, int pwm1Pin, int pw
 	Serial.println(potValue);
 
 	digipot.setValue(0, potValue);
-	digitalWrite(pwm1Pin, pwmValue);
+	analogWrite(pwm1Pin, pwmValue);
 
 	auto inverseValue = 255 - mappedValue;
 
-	auto inversePwmValue = vactrolLookup[inverseValue][0];
-	auto inversePotValue = vactrolLookup[inverseValue][1];
+	auto inversePwmValue = vactrolLookup[inverseValue][LOOKUP_PWM_IDX];
+	auto inversePotValue = vactrolLookup[inverseValue][LOOKUP_POT_IDX];
 
 	Serial.print("inversePwmValue: ");
 	Serial.println(inversePwmValue);
@@ -80,5 +80,5 @@ void Vactrols::setDoubleVactrol(int value, MCP4261 &digipot, int pwm1Pin, int pw
 	Serial.println("----------------");
 
 	digipot.setValue(1, inversePwmValue);
-	digitalWrite(pwm2Pin, inversePwmValue);
+	analogWrite(pwm2Pin, inversePwmValue);
 }

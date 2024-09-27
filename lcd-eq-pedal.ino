@@ -42,6 +42,6 @@ void loop()
 	*/
 
 
-	vactrols.SetBass(512);
+	vactrols.SetBass(1024);
   delay(2000);
 }
