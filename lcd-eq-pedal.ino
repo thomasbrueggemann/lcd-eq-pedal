@@ -21,13 +21,14 @@ Footswitches footswitches(banks, presetStore, editTracker);
 void setup()
 {
 	pinMode(28, OUTPUT);
+	SPI.begin();
 	Serial.begin(9600);
 	lcd.Begin();
 }
 
 void loop()
 {
-	auto analogPotValues = analogPots.Read();
+	/*auto analogPotValues = analogPots.Read();
 	auto preset = editTracker.TrackChanges(analogPotValues);
 
 	relays.Toggle(preset);
@@ -35,10 +36,10 @@ void loop()
 	vactrols.ApplyPreset(preset);
 
 	analogPots.Tick();
-	footswitches.Tick();
-
-	digitalWrite(28, HIGH);
-	delay(2000);
-	digitalWrite(28, LOW);
-	delay(2000);
+	footswitches.Tick();*/
+	for (int i = 0; i <= 1023; i++)
+	{
+		vactrols.SetBass(i);
+		delay(2000);
+	}
 }

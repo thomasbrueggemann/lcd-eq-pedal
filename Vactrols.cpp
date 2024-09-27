@@ -40,30 +40,41 @@ void Vactrols::setSingleVactrol(int value, int csPin, int pwmPin, int vactrolLoo
 {
 	auto mappedValue = map(value, 0, 1023, 0, 255);
 
-	auto pwmValue = vactrolLookup[mappedValue];
-	auto potValue = vactrolLookup[mappedValue];
+	auto pwmValue = vactrolLookup[mappedValue][LOOKUP_PWM_IDX];
+	auto potValue = vactrolLookup[mappedValue][LOOKUP_POT_IDX];
 
 	setDigitalPotValue(csPin, ADDRESS1, potValue);
-	digitalWrite(pwmPin, pwmValue);
+	analogWrite(pwmPin, pwmValue);
 }
 
 void Vactrols::setDoubleVactrol(int value, int csPin, int pwm1Pin, int pwm2Pin, int vactrolLookup[256][2])
 {
 	auto mappedValue = map(value, 0, 1023, 0, 255);
 
-	auto pwmValue = vactrolLookup[mappedValue][0];
-	auto potValue = vactrolLookup[mappedValue][1];
+	auto pwmValue = vactrolLookup[mappedValue][LOOKUP_PWM_IDX];
+	auto potValue = vactrolLookup[mappedValue][LOOKUP_POT_IDX];
+
+	Serial.print("pwmValue: ");
+	Serial.println(pwmValue);
+	Serial.print("potValue: ");
+	Serial.println(potValue);
 
 	setDigitalPotValue(csPin, ADDRESS1, potValue);
-	digitalWrite(pwm1Pin, pwmValue);
+	analogWrite(pwm1Pin, pwmValue);
 
 	auto inverseValue = 255 - mappedValue;
 
-	auto inversePwmValue = vactrolLookup[inverseValue][0];
-	auto inversePotValue = vactrolLookup[inverseValue][1];
+	auto inversePwmValue = vactrolLookup[inverseValue][LOOKUP_PWM_IDX];
+	auto inversePotValue = vactrolLookup[inverseValue][LOOKUP_POT_IDX];
+
+	Serial.print("inversePwmValue: ");
+	Serial.println(inversePwmValue);
+	Serial.print("inversePotValue: ");
+	Serial.println(inversePotValue);
+	Serial.println("----------------");
 
 	setDigitalPotValue(csPin, ADDRESS2, inversePotValue);
-	digitalWrite(pwm2Pin, inversePwmValue);
+	analogWrite(pwm2Pin, inversePwmValue);
 }
 
 void Vactrols::setDigitalPotValue(int csPin, byte address, int value)
