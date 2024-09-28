@@ -9,8 +9,8 @@
 
 #define ADDRESS 0x11
 
-#define LOOKUP_PWM_IDX 1
-#define LOOKUP_POT_IDX 0
+#define LOOKUP_PWM_IDX 0
+#define LOOKUP_POT_IDX 1
 
 #define TREBLE_POT_CS 24
 #define TREBLE_PWM1_PIN 11
