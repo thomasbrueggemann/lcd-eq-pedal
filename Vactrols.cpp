@@ -53,7 +53,7 @@ void Vactrols::SetVolume(int value)
 	analogWrite(VOLUME_PWM1_PIN, pwmValue);
 }
 
-void Vactrols::setDoubleVactrol(int value, MCP4261 &digipot, int pwm1Pin, int pwm2Pin, int vactrolLookup[256][2])
+void Vactrols::setDoubleVactrol(int value, MCP4261 &digipot, int pwm1Pin, int pwm2Pin, int vactrolLookup[256][4])
 {
 	auto mappedValue = map(value, 0, 1023, 0, 255);
 
@@ -79,6 +79,6 @@ void Vactrols::setDoubleVactrol(int value, MCP4261 &digipot, int pwm1Pin, int pw
 	Serial.println(inversePotValue);
 	Serial.println("----------------");
 
-	digipot.setValue(1, inversePwmValue);
+	digipot.setValue(1, inversePotValue);
 	analogWrite(pwm2Pin, inversePwmValue);
 }

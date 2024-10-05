@@ -1,30 +1,33 @@
+#include <Arduino.h>
 #include <SPI.h>
 
-#include "LCD.h"
+/*#include "LCD.h"
 #include "AnalogPots.h"
 #include "Banks.h"
 #include "Footswitches.h"
 #include "PresetStore.h"
 #include "EditTracker.h"
-#include "Relays.h"
+#include "Relays.h"*/
 #include "Vactrols.h"
 
-LCD lcd;
-Relays relays;
+//LCD lcd;
+//Relays relays;
 Vactrols vactrols;
-AnalogPots analogPots;
+/*AnalogPots analogPots;
 Banks banks;
 EditTracker editTracker;
 PresetStore presetStore;
-Footswitches footswitches(banks, presetStore, editTracker);
+Footswitches footswitches(banks, presetStore, editTracker);*/
 
 void setup()
 {
 	Serial.begin(9600);
-  SPI.begin();
-	lcd.Begin();
+  Serial.println("hey");
 
-	vactrols.SetBass(512);
+	SPI.begin();
+	//lcd.Begin();
+
+	vactrols.SetBass(10);
 }
 
 void loop()
@@ -41,7 +44,9 @@ void loop()
 	footswitches.Tick();
 	*/
 
-
-	vactrols.SetBass(1024);
-  delay(2000);
+  for(int x = 0; x <1023; x++)
+  {
+    vactrols.SetBass(x);
+    delay(250);
+  }
 }
