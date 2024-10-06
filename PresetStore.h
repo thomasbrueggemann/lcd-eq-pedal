@@ -5,7 +5,7 @@
 
 #include "Preset.h"
 
-#define NUM_PRESETS_PER_BANK 4
+#define NUM_PRESETS_PER_BANK 6
 #define NUM_BYTES_PER_PRESET 12
 
 #define BASS_ADDRESS 0
@@ -15,6 +15,8 @@
 #define AMPSWITCH_ADDRESS 4
 #define LOOP1_ADDRESS 5
 #define LOOP2_ADDRESS 6
+#define LOOP3_ADDRESS 7
+#define LOOP4_ADDRESS 8
 
 class PresetStore
 {

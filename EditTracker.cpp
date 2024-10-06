@@ -2,7 +2,7 @@
 
 EditTracker::EditTracker()
 {
-	currentPreset = Preset(); 
+	currentPreset = Preset();
 	previousAnalogPotValues = AnalogPotValues();
 }
 

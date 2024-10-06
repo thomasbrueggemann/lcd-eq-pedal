@@ -14,8 +14,10 @@ public:
 	bool AmpSwitch;
 	bool Loop1;
 	bool Loop2;
+	bool Loop3;
+	bool Loop4;
 
-  Preset() {}
+	Preset() {}
 
 	Preset(AnalogPotValues &values)
 	{
@@ -39,6 +41,8 @@ public:
 		Serial.println("AmpSwitch: " + String(AmpSwitch ? "On" : "Off"));
 		Serial.println("Loop1: " + String(Loop1 ? "On" : "Off"));
 		Serial.println("Loop2: " + String(Loop2 ? "On" : "Off"));
+		Serial.println("Loop3: " + String(Loop3 ? "On" : "Off"));
+		Serial.println("Loop4: " + String(Loop4 ? "On" : "Off"));
 	}
 };
 

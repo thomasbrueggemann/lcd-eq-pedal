@@ -1,7 +1,7 @@
 #include "LCD.h"
 
 LCD::LCD()
-	: display(LCD_DIN, LCD_SCLK, LCD_A0, LCD_RESET, LCD_CS)
+	: display(LCD_PIN_DIN, LCD_PIN_SCLK, LCD_PIN_A0, LCD_PIN_RESET, LCD_PIN_CS)
 {
 }
 

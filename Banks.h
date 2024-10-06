@@ -4,7 +4,6 @@
 #include <Arduino.h>
 
 #define MAX_BANKS 10
-#define MAX_PRESETS 3
 
 class Banks
 {

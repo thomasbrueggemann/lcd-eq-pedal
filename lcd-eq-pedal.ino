@@ -46,7 +46,8 @@ void loop()
 
   for(int x = 0; x <1023; x++)
   {
+    Serial.println(x);
     vactrols.SetBass(x);
-    delay(250);
+    delay(100);
   }
 }
