@@ -36,6 +36,18 @@ private:
 	OneButton footswitch2;
 	OneButton footswitch3;
 
+	bool footswitch1HiddenPresetEnabled = false;
+	bool footswitch2HiddenPresetEnabled = false;
+	bool footswitch3HiddenPresetEnabled = false;
+
+	int footswitch1ActiveLedPin = FOOTSWITCH_1_LED_A_PIN;
+	int footswitch2ActiveLedPin = FOOTSWITCH_2_LED_A_PIN;
+	int footswitch3ActiveLedPin = FOOTSWITCH_3_LED_A_PIN;
+
+	int footswitch1InactiveLedPin = FOOTSWITCH_1_LED_B_PIN;
+	int footswitch2InactiveLedPin = FOOTSWITCH_2_LED_B_PIN;
+	int footswitch3InactiveLedPin = FOOTSWITCH_3_LED_B_PIN;
+
 	Banks &banks;
 	PresetStore &presetStore;
 	EditTracker &editTracker;
@@ -47,6 +59,9 @@ private:
 	void toggleLeds(int footswitchIndex);
 	void blinkLeds(int footswitchIndex);
 	void blinkLed(int ledPin);
+
+	void toggleHiddenPreset(int footswitchIndex);
+	void resetHiddenPresets();
 };
 
 #endif // FOOTSWITCHES_H

@@ -8,9 +8,13 @@ Footswitches::Footswitches(Banks &bank, PresetStore &presetStore, EditTracker &e
 	  presetStore(presetStore),
 	  editTracker(editTracker)
 {
-	pinMode(FOOTSWITCH_1_LED_PIN, OUTPUT);
-	pinMode(FOOTSWITCH_2_LED_PIN, OUTPUT);
-	pinMode(FOOTSWITCH_3_LED_PIN, OUTPUT);
+	pinMode(FOOTSWITCH_1_LED_A_PIN, OUTPUT);
+	pinMode(FOOTSWITCH_2_LED_A_PIN, OUTPUT);
+	pinMode(FOOTSWITCH_3_LED_A_PIN, OUTPUT);
+
+	pinMode(FOOTSWITCH_1_LED_B_PIN, OUTPUT);
+	pinMode(FOOTSWITCH_2_LED_B_PIN, OUTPUT);
+	pinMode(FOOTSWITCH_3_LED_B_PIN, OUTPUT);
 
 	// configure long press threshold
 	footswitch1.setPressMs(LONG_PRESS_THRESHOLD);
@@ -49,13 +53,22 @@ void Footswitches::Tick()
 
 void Footswitches::handlePress(int footswitchIndex)
 {
-	// press is only available on the current preset
+	bool hiddenPresetEnabled = false;
+
+	// if we're re-pressing the same footswitch, toggle the hidden preset
 	if (footswitchIndex != banks.GetCurrentPreset())
 	{
-		return;
+		toggleHiddenPreset(footswitchIndex);
+		hiddenPresetEnabled = true;
+	}
+	else
+	{
+		resetHiddenPresets();
 	}
 
-	banks.SetPreset(footswitchIndex);
+	int presetIndex = (footswitchIndex * 2) + (hiddenPresetEnabled == true ? 1 : 0);
+
+	banks.SetPreset(presetIndex);
 	toggleLeds(footswitchIndex);
 
 	auto preset = presetStore.Read(banks.GetCurrentBank(), banks.GetCurrentPreset());
@@ -80,6 +93,8 @@ void Footswitches::handleLongPress(int footswitchIndex)
 
 void Footswitches::handleDoubleClick(int footswitchIndex)
 {
+	resetHiddenPresets();
+
 	if (footswitchIndex == 0)
 	{
 		banks.BankDown();
@@ -90,24 +105,65 @@ void Footswitches::handleDoubleClick(int footswitchIndex)
 	}
 }
 
-void Footswitches::toggleLeds(int footswitchIndex)
+void Footswitches::toggleHiddenPreset(int footswitchIndex)
 {
 	switch (footswitchIndex)
 	{
 	case 0:
-		digitalWrite(FOOTSWITCH_1_LED_PIN, HIGH);
-		digitalWrite(FOOTSWITCH_2_LED_PIN, LOW);
-		digitalWrite(FOOTSWITCH_3_LED_PIN, LOW);
+		footswitch1HiddenPresetEnabled = !footswitch1HiddenPresetEnabled;
+		footswitch1ActiveLedPin = footswitch1HiddenPresetEnabled ? FOOTSWITCH_1_LED_B_PIN : FOOTSWITCH_1_LED_A_PIN;
+		footswitch1InactiveLedPin = footswitch1HiddenPresetEnabled ? FOOTSWITCH_1_LED_A_PIN : FOOTSWITCH_1_LED_B_PIN;
 		break;
 	case 1:
-		digitalWrite(FOOTSWITCH_1_LED_PIN, LOW);
-		digitalWrite(FOOTSWITCH_2_LED_PIN, HIGH);
-		digitalWrite(FOOTSWITCH_3_LED_PIN, LOW);
+		footswitch2HiddenPresetEnabled = !footswitch2HiddenPresetEnabled;
+		footswitch2ActiveLedPin = footswitch2HiddenPresetEnabled ? FOOTSWITCH_2_LED_B_PIN : FOOTSWITCH_2_LED_A_PIN;
+		footswitch2InactiveLedPin = footswitch2HiddenPresetEnabled ? FOOTSWITCH_2_LED_A_PIN : FOOTSWITCH_2_LED_B_PIN;
 		break;
 	case 2:
-		digitalWrite(FOOTSWITCH_1_LED_PIN, LOW);
-		digitalWrite(FOOTSWITCH_2_LED_PIN, LOW);
-		digitalWrite(FOOTSWITCH_3_LED_PIN, HIGH);
+		footswitch3HiddenPresetEnabled = !footswitch3HiddenPresetEnabled;
+		footswitch3ActiveLedPin = footswitch3HiddenPresetEnabled ? FOOTSWITCH_3_LED_B_PIN : FOOTSWITCH_3_LED_A_PIN;
+		footswitch3InactiveLedPin = footswitch3HiddenPresetEnabled ? FOOTSWITCH_3_LED_A_PIN : FOOTSWITCH_3_LED_B_PIN;
+		break;
+	}
+}
+
+void Footswitches::resetHiddenPresets()
+{
+	footswitch1HiddenPresetEnabled = false;
+	footswitch2HiddenPresetEnabled = false;
+	footswitch3HiddenPresetEnabled = false;
+
+	footswitch1ActiveLedPin = FOOTSWITCH_1_LED_A_PIN;
+	footswitch2ActiveLedPin = FOOTSWITCH_2_LED_A_PIN;
+	footswitch3ActiveLedPin = FOOTSWITCH_3_LED_A_PIN;
+
+	footswitch1InactiveLedPin = FOOTSWITCH_1_LED_B_PIN;
+	footswitch2InactiveLedPin = FOOTSWITCH_2_LED_B_PIN;
+	footswitch3InactiveLedPin = FOOTSWITCH_3_LED_B_PIN;
+}
+
+void Footswitches::toggleLeds(int footswitchIndex)
+{
+	digitalWrite(footswitch1InactiveLedPin, LOW);
+	digitalWrite(footswitch2InactiveLedPin, LOW);
+	digitalWrite(footswitch3InactiveLedPin, LOW);
+
+	switch (footswitchIndex)
+	{
+	case 0:
+		digitalWrite(footswitch1ActiveLedPin, HIGH);
+		digitalWrite(footswitch2ActiveLedPin, LOW);
+		digitalWrite(footswitch3ActiveLedPin, LOW);
+		break;
+	case 1:
+		digitalWrite(footswitch1ActiveLedPin, LOW);
+		digitalWrite(footswitch2ActiveLedPin, HIGH);
+		digitalWrite(footswitch3ActiveLedPin, LOW);
+		break;
+	case 2:
+		digitalWrite(footswitch1ActiveLedPin, LOW);
+		digitalWrite(footswitch2ActiveLedPin, LOW);
+		digitalWrite(footswitch3ActiveLedPin, HIGH);
 		break;
 	}
 }
@@ -117,19 +173,19 @@ void Footswitches::blinkLeds(int footswitchIndex)
 	switch (footswitchIndex)
 	{
 	case 0:
-		digitalWrite(FOOTSWITCH_2_LED_PIN, LOW);
-		digitalWrite(FOOTSWITCH_3_LED_PIN, LOW);
-		blinkLed(FOOTSWITCH_1_LED_PIN);
+		digitalWrite(footswitch2ActiveLedPin, LOW);
+		digitalWrite(footswitch3ActiveLedPin, LOW);
+		blinkLed(footswitch1ActiveLedPin);
 		break;
 	case 1:
-		digitalWrite(FOOTSWITCH_1_LED_PIN, LOW);
-		digitalWrite(FOOTSWITCH_3_LED_PIN, LOW);
-		blinkLed(FOOTSWITCH_2_LED_PIN);
+		digitalWrite(footswitch1ActiveLedPin, LOW);
+		digitalWrite(footswitch3ActiveLedPin, LOW);
+		blinkLed(footswitch2ActiveLedPin);
 		break;
 	case 2:
-		digitalWrite(FOOTSWITCH_1_LED_PIN, LOW);
-		digitalWrite(FOOTSWITCH_2_LED_PIN, LOW);
-		blinkLed(FOOTSWITCH_3_LED_PIN);
+		digitalWrite(footswitch1ActiveLedPin, LOW);
+		digitalWrite(footswitch2ActiveLedPin, LOW);
+		blinkLed(footswitch3ActiveLedPin);
 		break;
 	}
 }
