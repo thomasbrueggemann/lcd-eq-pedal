@@ -7,8 +7,8 @@
 #define RELAY_BYPASS_PIN 26
 #define RELAY_LOOP1_PIN 28
 #define RELAY_LOOP2_PIN 29
-#define RELAY_LOOP3_PIN 5
-#define RELAY_LOOP4_PIN 6
+#define RELAY_LOOP3_PIN 30
+#define RELAY_LOOP4_PIN 31
 
 class Relays
 {

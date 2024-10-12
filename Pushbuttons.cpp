@@ -85,11 +85,6 @@ void Pushbuttons::handlePress(int buttonIndex)
 	}
 
 	toggleLeds();
-
-	// auto preset = presetStore.Read(banks.GetCurrentBank(), banks.GetCurrentPreset());
-	// editTracker.SetPreset(preset);
-
-	// preset.Print();
 }
 
 void Pushbuttons::toggleLeds()
