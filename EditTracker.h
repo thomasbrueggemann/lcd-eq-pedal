@@ -3,6 +3,7 @@
 
 #include "Preset.h"
 #include "AnalogPotValues.h"
+#include "PushbuttonValues.h"
 
 class EditTracker
 {
@@ -11,11 +12,12 @@ public:
 
 	void SetPreset(Preset &preset);
 	Preset &GetPreset();
-	Preset &TrackChanges(AnalogPotValues &analogPotValues);
+	Preset &TrackChanges(AnalogPotValues &analogPotValues, PushbuttonValues &pushbuttonValues);
 
 private:
 	Preset &currentPreset;
 	AnalogPotValues &previousAnalogPotValues;
+	PushbuttonValues &previousPushbuttonValues;
 };
 
 #endif // EDIT_TRACKER_H

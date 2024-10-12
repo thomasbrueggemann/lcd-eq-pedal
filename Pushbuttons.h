@@ -21,6 +21,8 @@ class Pushbuttons
 public:
 	Pushbuttons();
 	void Tick();
+	PushbuttonValues Read();
+	void ApplyPreset(Preset &preset);
 
 private:
 	OneButton ampSwitchButton;
@@ -28,6 +30,15 @@ private:
 	OneButton loop2Button;
 	OneButton loop3Button;
 	OneButton loop4Button;
+
+	bool ampSwitchPressed = false;
+	bool loop1Pressed = false;
+	bool loop2Pressed = false;
+	bool loop3Pressed = false;
+	bool loop4Pressed = false;
+
+	void handlePress(int buttonIndex);
+	void toggleLeds();
 };
 
 #endif // PUSHBUTTONS_H
