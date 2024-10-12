@@ -19,14 +19,8 @@
 class Pushbuttons
 {
 public:
-	Pushbuttons()
-		: ampSwitchButton(AMP_SWITCH_BUTTON_PIN, true),
-		  loop1Button(LOOP1_BUTTON_PIN, true),
-		  loop2Button(LOOP2_BUTTON_PIN, true),
-		  loop3Button(LOOP3_BUTTON_PIN, true),
-		  loop4Button(LOOP4_BUTTON_PIN, true)
-	{
-	}
+	Pushbuttons();
+	void Tick();
 
 private:
 	OneButton ampSwitchButton;
