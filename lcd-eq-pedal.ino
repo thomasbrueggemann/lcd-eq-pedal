@@ -10,6 +10,7 @@
 #include "Relays.h"
 #include "Vactrols.h"
 #include "Pushbuttons.h"
+#include "Preset.h"
 
 LCD lcd;
 Relays relays;
@@ -28,22 +29,22 @@ void setup()
 
 	SPI.begin();
 	lcd.Begin();
-
-	vactrols.SetBass(10);
 }
 
 void loop()
 {
-	auto analogPotValues = analogPots.Read();
+	/*auto analogPotValues = analogPots.Read();
 	auto pushbuttonValues = pushbuttons.Read();
 
 	auto preset = editTracker.TrackChanges(analogPotValues, pushbuttonValues);
 
-	relays.Toggle(preset);
-	lcd.Draw(preset, banks.GetCurrentBank());
+	relays.Toggle(preset);*/
+  Preset preset;
+	lcd.Draw(preset, 1);
+  /*Serial.println("Draw");
 	vactrols.ApplyPreset(preset);
 
 	analogPots.Tick();
 	footswitches.Tick();
-	pushbuttons.Tick();
+	pushbuttons.Tick();*/
 }

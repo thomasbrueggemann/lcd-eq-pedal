@@ -8,6 +8,7 @@ LCD::LCD()
 void LCD::Begin()
 {
 	display.begin(13);
+  display.setRotation(2);
 }
 
 void LCD::Draw(Preset &preset, int bank)

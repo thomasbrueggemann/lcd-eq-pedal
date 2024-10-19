@@ -4,6 +4,9 @@
 #include <Arduino.h>
 #include <OneButton.h>
 
+#include "Preset.h"
+#include "PushbuttonValues.h"
+
 #define LOOP1_BUTTON_PIN 17
 #define LOOP2_BUTTON_PIN 18
 #define AMP_SWITCH_BUTTON_PIN 19
