@@ -7,11 +7,11 @@ Pushbuttons::Pushbuttons()
 	  loop3Button(LOOP3_BUTTON_PIN, true),
 	  loop4Button(LOOP4_BUTTON_PIN, true)
 {
-	pinMode(AMP_SWITCH_BUTTON_PIN, OUTPUT);
-	pinMode(LOOP1_BUTTON_PIN, OUTPUT);
-	pinMode(LOOP2_BUTTON_PIN, OUTPUT);
-	pinMode(LOOP3_BUTTON_PIN, OUTPUT);
-	pinMode(LOOP4_BUTTON_PIN, OUTPUT);
+	pinMode(AMP_SWITCH_BUTTON_PIN, INPUT);
+	pinMode(LOOP1_BUTTON_PIN, INPUT);
+	pinMode(LOOP2_BUTTON_PIN, INPUT);
+	pinMode(LOOP3_BUTTON_PIN, INPUT);
+	pinMode(LOOP4_BUTTON_PIN, INPUT);
 
 	pinMode(AMP_SWITCH_LED_PIN, OUTPUT);
 	pinMode(LOOP1_LED_PIN, OUTPUT);
@@ -65,6 +65,9 @@ void Pushbuttons::ApplyPreset(Preset &preset)
 
 void Pushbuttons::handlePress(int buttonIndex)
 {
+  Serial.println("Button pressed:");
+  Serial.println(buttonIndex);
+
 	switch (buttonIndex)
 	{
 	case 0:

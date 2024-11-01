@@ -1,12 +1,5 @@
 #include "EditTracker.h"
 
-EditTracker::EditTracker()
-{
-	currentPreset = Preset();
-	previousAnalogPotValues = AnalogPotValues();
-	previousPushbuttonValues = PushbuttonValues();
-}
-
 void EditTracker::SetPreset(Preset &preset)
 {
 	currentPreset = preset;

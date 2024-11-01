@@ -33,18 +33,17 @@ void setup()
 
 void loop()
 {
-	/*auto analogPotValues = analogPots.Read();
+	auto analogPotValues = analogPots.Read();
 	auto pushbuttonValues = pushbuttons.Read();
 
-	auto preset = editTracker.TrackChanges(analogPotValues, pushbuttonValues);
+	Preset preset = editTracker.TrackChanges(analogPotValues, pushbuttonValues);
 
-	relays.Toggle(preset);*/
-  Preset preset;
+	/*relays.Toggle(preset);*/
 	lcd.Draw(preset, 1);
   /*Serial.println("Draw");
 	vactrols.ApplyPreset(preset);
-
+*/
 	analogPots.Tick();
-	footswitches.Tick();
-	pushbuttons.Tick();*/
+	//footswitches.Tick();
+	pushbuttons.Tick();
 }
