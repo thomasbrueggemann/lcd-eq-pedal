@@ -79,6 +79,11 @@ void Footswitches::handlePress(int footswitchIndex)
 
 void Footswitches::handleLongPress(int footswitchIndex)
 {
+  Serial.println("Longpress");
+  Serial.println(footswitchIndex);
+  Serial.println(banks.GetCurrentPreset());
+  Serial.println("##");
+
 	// long press is only available on the current preset
 	if (footswitchIndex != banks.GetCurrentPreset())
 	{
