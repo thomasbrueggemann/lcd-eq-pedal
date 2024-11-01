@@ -1,18 +1,12 @@
 #include "Pushbuttons.h"
 
 Pushbuttons::Pushbuttons()
-	: ampSwitchButton(AMP_SWITCH_BUTTON_PIN, true),
-	  loop1Button(LOOP1_BUTTON_PIN, true),
-	  loop2Button(LOOP2_BUTTON_PIN, true),
-	  loop3Button(LOOP3_BUTTON_PIN, true),
-	  loop4Button(LOOP4_BUTTON_PIN, true)
+	: ampSwitchButton(AMP_SWITCH_BUTTON_PIN, true, true),
+	  loop1Button(LOOP1_BUTTON_PIN, true, true),
+	  loop2Button(LOOP2_BUTTON_PIN, true, true),
+	  loop3Button(LOOP3_BUTTON_PIN, true, true),
+	  loop4Button(LOOP4_BUTTON_PIN, true, true)
 {
-	pinMode(AMP_SWITCH_BUTTON_PIN, INPUT);
-	pinMode(LOOP1_BUTTON_PIN, INPUT);
-	pinMode(LOOP2_BUTTON_PIN, INPUT);
-	pinMode(LOOP3_BUTTON_PIN, INPUT);
-	pinMode(LOOP4_BUTTON_PIN, INPUT);
-
 	pinMode(AMP_SWITCH_LED_PIN, OUTPUT);
 	pinMode(LOOP1_LED_PIN, OUTPUT);
 	pinMode(LOOP2_LED_PIN, OUTPUT);

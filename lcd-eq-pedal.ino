@@ -39,11 +39,10 @@ void loop()
 	Preset preset = editTracker.TrackChanges(analogPotValues, pushbuttonValues);
 
 	/*relays.Toggle(preset);*/
-	lcd.Draw(preset, 1);
-  /*Serial.println("Draw");
+	lcd.Draw(preset, banks.GetCurrentBank());
 	vactrols.ApplyPreset(preset);
-*/
+
 	analogPots.Tick();
-	//footswitches.Tick();
+	footswitches.Tick();
 	pushbuttons.Tick();
 }
