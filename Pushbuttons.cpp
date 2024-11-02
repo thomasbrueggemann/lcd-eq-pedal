@@ -1,38 +1,12 @@
 #include "Pushbuttons.h"
 
 Pushbuttons::Pushbuttons()
-	: ampSwitchButton(AMP_SWITCH_BUTTON_PIN, true, true),
-	  loop1Button(LOOP1_BUTTON_PIN, true, true),
-	  loop2Button(LOOP2_BUTTON_PIN, true, true),
-	  loop3Button(LOOP3_BUTTON_PIN, true, true),
-	  loop4Button(LOOP4_BUTTON_PIN, true, true)
 {
 	pinMode(AMP_SWITCH_LED_PIN, OUTPUT);
 	pinMode(LOOP1_LED_PIN, OUTPUT);
 	pinMode(LOOP2_LED_PIN, OUTPUT);
 	pinMode(LOOP3_LED_PIN, OUTPUT);
 	pinMode(LOOP4_LED_PIN, OUTPUT);
-
-	// press event handlers
-	ampSwitchButton.attachClick([](void *ctx)
-								{ ((Pushbuttons *)(ctx))->handlePress(0); }, this);
-	loop1Button.attachClick([](void *ctx)
-							{ ((Pushbuttons *)(ctx))->handlePress(1); }, this);
-	loop2Button.attachClick([](void *ctx)
-							{ ((Pushbuttons *)(ctx))->handlePress(2); }, this);
-	loop3Button.attachClick([](void *ctx)
-							{ ((Pushbuttons *)(ctx))->handlePress(3); }, this);
-	loop4Button.attachClick([](void *ctx)
-							{ ((Pushbuttons *)(ctx))->handlePress(4); }, this);
-}
-
-void Pushbuttons::Tick()
-{
-	ampSwitchButton.tick();
-	loop1Button.tick();
-	loop2Button.tick();
-	loop3Button.tick();
-	loop4Button.tick();
 }
 
 PushbuttonValues Pushbuttons::Read()
@@ -57,26 +31,26 @@ void Pushbuttons::ApplyPreset(Preset &preset)
 	toggleLeds();
 }
 
-void Pushbuttons::handlePress(int buttonIndex)
+void Pushbuttons::HandlePress(int pin)
 {
-  Serial.println("Button pressed:");
-  Serial.println(buttonIndex);
+  Serial.println("Button pin pressed:");
+  Serial.println(pin);
 
-	switch (buttonIndex)
+	switch (pin)
 	{
-	case 0:
+	case AMP_SWITCH_BUTTON_PIN:
 		ampSwitchPressed = !ampSwitchPressed;
 		break;
-	case 1:
+	case LOOP1_BUTTON_PIN:
 		loop1Pressed = !loop1Pressed;
 		break;
-	case 2:
+	case LOOP2_BUTTON_PIN:
 		loop2Pressed = !loop2Pressed;
 		break;
-	case 3:
+	case LOOP3_BUTTON_PIN:
 		loop3Pressed = !loop3Pressed;
 		break;
-	case 4:
+	case LOOP4_BUTTON_PIN:
 		loop4Pressed = !loop4Pressed;
 		break;
 	}

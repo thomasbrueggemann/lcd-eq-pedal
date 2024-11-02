@@ -25,7 +25,7 @@ void LCD::Draw(Preset &preset, int bank)
 	display.setTextSize(3);
 	display.setTextColor(ST7565_ON);
 	display.setCursor(105, CENTER - 10);
-	display.println(bank);
+	display.println(bank + 1);
 
 	drawBar(0, preset.Bass);
 	drawBar(25, preset.Middle);

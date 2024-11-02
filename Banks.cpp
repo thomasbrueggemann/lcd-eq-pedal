@@ -2,8 +2,8 @@
 
 Banks::Banks()
 {
-	currentBank = 5;
-	SetPreset(3);
+	currentBank = 0;
+	SetPreset(0);
 }
 
 void Banks::SetPreset(int preset)
@@ -14,6 +14,10 @@ void Banks::SetPreset(int preset)
 void Banks::BankUp()
 {
 	currentBank++;
+	
+	if (currentBank > MAX_BANKS) {
+		currentBank = 0;
+	}
 
 	Serial.print("Bank up, new bank: ");
 	Serial.println(currentBank);
@@ -24,6 +28,10 @@ void Banks::BankUp()
 void Banks::BankDown()
 {
 	currentBank--;
+
+	if (currentBank < 0) {
+		currentBank = MAX_BANKS;
+	}
 
 	Serial.print("Bank down, new bank: ");
 	Serial.println(currentBank);
