@@ -94,9 +94,10 @@ void loop() {
 
   auto preset = editTracker.TrackChanges(analogPotValues, pushbuttonValues);
 
-  /*relays.Toggle(preset);*/
+  relays.Toggle(preset);
   lcd.Draw(preset, banks.GetCurrentBank());
   vactrols.ApplyPreset(preset);
+  pushbuttons.ApplyPreset(preset);
 
   analogPots.Tick();
   pushbuttons.Tick();
