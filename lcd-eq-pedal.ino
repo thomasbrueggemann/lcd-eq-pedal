@@ -33,6 +33,10 @@ static void handleFootswitchPress(OneButton *oneButton) {
 
   banks.SetPreset(footswitchIndex);
   auto preset = presetStore.Read(banks.GetCurrentBank(), banks.GetCurrentPreset());
+  
+  Serial.println("Reading Bank: " + String(banks.GetCurrentBank()) + " Preset: " + String(banks.GetCurrentPreset()));
+  preset.Print();
+
   editTracker.SetPreset(preset);
 }
 
@@ -40,6 +44,10 @@ static void handleFootswitchLongPress(OneButton *oneButton) {
   int footswitchIndex = footswitches.PinToIndex(oneButton->pin());
 
   auto preset = editTracker.GetPreset();
+
+  Serial.println("Bank: " + String(banks.GetCurrentBank()) + " Preset: " + String(banks.GetCurrentPreset()));
+  preset.Print();
+
   presetStore.Write(banks.GetCurrentBank(), banks.GetCurrentPreset(), preset);
 
   footswitches.HandleLongPress(footswitchIndex);

@@ -34,15 +34,15 @@ public:
 
 	void Print()
 	{
-		Serial.println("Bass: " + String(Bass));
-		Serial.println("Middle: " + String(Middle));
-		Serial.println("Treble: " + String(Treble));
-		Serial.println("Volume: " + String(Volume));
-		Serial.println("AmpSwitch: " + String(AmpSwitch ? "On" : "Off"));
-		Serial.println("Loop1: " + String(Loop1 ? "On" : "Off"));
-		Serial.println("Loop2: " + String(Loop2 ? "On" : "Off"));
-		Serial.println("Loop3: " + String(Loop3 ? "On" : "Off"));
-		Serial.println("Loop4: " + String(Loop4 ? "On" : "Off"));
+		Serial.print("Bass: " + String(Bass));
+		Serial.print(", Middle: " + String(Middle));
+		Serial.print(", Treble: " + String(Treble));
+		Serial.println(", Volume: " + String(Volume));
+		Serial.print("AmpSwitch: " + String(AmpSwitch ? "On" : "Off"));
+		Serial.print(", Loop1: " + String(Loop1 ? "On" : "Off"));
+		Serial.print(", Loop2: " + String(Loop2 ? "On" : "Off"));
+		Serial.print(", Loop3: " + String(Loop3 ? "On" : "Off"));
+		Serial.println(", Loop4: " + String(Loop4 ? "On" : "Off"));
 	}
 };
 

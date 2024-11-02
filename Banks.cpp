@@ -9,9 +9,6 @@ Banks::Banks()
 void Banks::SetPreset(int preset)
 {
 	currentPreset = preset;
-
-	Serial.print("Preset set to: ");
-	Serial.println(currentPreset);
 }
 
 void Banks::BankUp()

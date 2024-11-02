@@ -24,15 +24,7 @@ void PresetStore::Write(int bank, int preset, Preset &payload)
 {
 	int startingAddress = getStartingAddress(bank, preset);
 
-	EEPROM.update(startingAddress + BASS_ADDRESS, payload.Bass);
-	EEPROM.update(startingAddress + MIDDLE_ADDRESS, payload.Middle);
-	EEPROM.update(startingAddress + TREBLE_ADDRESS, payload.Treble);
-	EEPROM.update(startingAddress + VOLUME_ADDRESS, payload.Volume);
-	EEPROM.update(startingAddress + AMPSWITCH_ADDRESS, payload.AmpSwitch);
-	EEPROM.update(startingAddress + LOOP1_ADDRESS, payload.Loop1);
-	EEPROM.update(startingAddress + LOOP2_ADDRESS, payload.Loop2);
-	EEPROM.update(startingAddress + LOOP3_ADDRESS, payload.Loop3);
-	EEPROM.update(startingAddress + LOOP4_ADDRESS, payload.Loop4);
+	EEPROM.put(startingAddress, payload);
 }
 
 Preset PresetStore::Read(int bank, int preset)
@@ -40,15 +32,7 @@ Preset PresetStore::Read(int bank, int preset)
 	Preset p;
 
 	int startingAddress = getStartingAddress(bank, preset);
-	EEPROM.get(startingAddress + BASS_ADDRESS, p.Bass);
-	EEPROM.get(startingAddress + MIDDLE_ADDRESS, p.Middle);
-	EEPROM.get(startingAddress + TREBLE_ADDRESS, p.Treble);
-	EEPROM.get(startingAddress + VOLUME_ADDRESS, p.Volume);
-	EEPROM.get(startingAddress + AMPSWITCH_ADDRESS, p.AmpSwitch);
-	EEPROM.get(startingAddress + LOOP1_ADDRESS, p.Loop1);
-	EEPROM.get(startingAddress + LOOP2_ADDRESS, p.Loop2);
-	EEPROM.get(startingAddress + LOOP3_ADDRESS, p.Loop3);
-	EEPROM.get(startingAddress + LOOP4_ADDRESS, p.Loop4);
+	EEPROM.get(startingAddress, p);
 
 	return p;
 }
