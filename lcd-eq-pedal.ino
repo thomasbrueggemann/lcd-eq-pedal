@@ -173,4 +173,6 @@ void loop()
     footswitch1.tick();
     footswitch2.tick();
     footswitch3.tick();
+
+    reRender = false;
 }
