@@ -55,6 +55,7 @@ void Vactrols::SetVolume(int value)
 
 void Vactrols::setDoubleVactrol(int value, MCP4261 &digipot, int pwm1Pin, int pwm2Pin, int vactrolLookup[256][2])
 {
+	value = 1023 - value;
 	auto mappedValue = map(value, 0, 1023, 0, 255);
 
 	auto pwmValue = vactrolLookup[mappedValue][LOOKUP_PWM_IDX];

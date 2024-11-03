@@ -8,6 +8,8 @@ Relays::Relays()
 	pinMode(RELAY_LOOP2_PIN, OUTPUT);
 	pinMode(RELAY_LOOP3_PIN, OUTPUT);
 	pinMode(RELAY_LOOP4_PIN, OUTPUT);
+
+  	digitalWrite(RELAY_BYPASS_PIN, HIGH);
 }
 
 void Relays::Toggle(Preset &preset)
@@ -17,5 +19,9 @@ void Relays::Toggle(Preset &preset)
 	digitalWrite(RELAY_LOOP2_PIN, preset.Loop2 ? HIGH : LOW);
 	digitalWrite(RELAY_LOOP3_PIN, preset.Loop3 ? HIGH : LOW);
 	digitalWrite(RELAY_LOOP4_PIN, preset.Loop4 ? HIGH : LOW);
-  digitalWrite(RELAY_BYPASS_PIN, HIGH);
+}
+
+void Relays::UnBypass()
+{
+	digitalWrite(RELAY_BYPASS_PIN, HIGH);
 }

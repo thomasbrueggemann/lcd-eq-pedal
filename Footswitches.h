@@ -15,34 +15,43 @@
 #define FOOTSWITCH_2_PIN 5
 #define FOOTSWITCH_3_PIN 6
 
-#define FOOTSWITCH_1_LED_A_PIN 44
-#define FOOTSWITCH_2_LED_A_PIN 46
-#define FOOTSWITCH_3_LED_A_PIN 48
+#define FOOTSWITCH_1_LED_B_PIN 44
+#define FOOTSWITCH_2_LED_B_PIN 46
+#define FOOTSWITCH_3_LED_B_PIN 48
 
-#define FOOTSWITCH_1_LED_B_PIN 45
-#define FOOTSWITCH_2_LED_B_PIN 47
-#define FOOTSWITCH_3_LED_B_PIN 49
+#define FOOTSWITCH_1_LED_A_PIN 45
+#define FOOTSWITCH_2_LED_A_PIN 47
+#define FOOTSWITCH_3_LED_A_PIN 49
+
+enum FootswitchesState
+{
+	INACTIVE,
+	ACTIVE_A,
+	ACTIVE_B
+};
 
 class Footswitches
 {
 public:
 	Footswitches();
 
-	void HandlePress(int footswitchIndex);
+	int HandlePress(int footswitchIndex);
 	void HandleLongPress(int footswitchIndex);
-	void HandleDoublePress(int footswitchIndex);
 
-  int PinToIndex(int pin);
+	int PinToIndex(int pin);
 
 private:
+	int footswitch1ActiveLedPin = FOOTSWITCH_1_LED_A_PIN;
+	int footswitch2ActiveLedPin = FOOTSWITCH_2_LED_A_PIN;
+	int footswitch3ActiveLedPin = FOOTSWITCH_3_LED_A_PIN;
 
-	int footswitch1ActiveLedPin = FOOTSWITCH_1_LED_B_PIN;
-	int footswitch2ActiveLedPin = FOOTSWITCH_2_LED_B_PIN;
-	int footswitch3ActiveLedPin = FOOTSWITCH_3_LED_B_PIN;
+	int footswitch1InactiveLedPin = FOOTSWITCH_1_LED_B_PIN;
+	int footswitch2InactiveLedPin = FOOTSWITCH_2_LED_B_PIN;
+	int footswitch3InactiveLedPin = FOOTSWITCH_3_LED_B_PIN;
 
-	int footswitch1InactiveLedPin = FOOTSWITCH_1_LED_A_PIN;
-	int footswitch2InactiveLedPin = FOOTSWITCH_2_LED_A_PIN;
-	int footswitch3InactiveLedPin = FOOTSWITCH_3_LED_A_PIN;
+	FootswitchesState footswitch1State = INACTIVE;
+	FootswitchesState footswitch2State = INACTIVE;
+	FootswitchesState footswitch3State = INACTIVE;
 
 	void toggleLeds(int footswitchIndex);
 	void blinkLeds(int footswitchIndex);

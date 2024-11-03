@@ -15,6 +15,7 @@ class Relays
 public:
 	Relays();
 	void Toggle(Preset &preset);
+	void UnBypass();
 
 private:
 };

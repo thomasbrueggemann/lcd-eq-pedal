@@ -38,9 +38,9 @@ bool forceApply = true;
 
 static void loadPreset(int footswitchIndex)
 {
-    footswitches.HandlePress(footswitchIndex);
+    int presetIdx = footswitches.HandlePress(footswitchIndex);
 
-    banks.SetPreset(footswitchIndex);
+    banks.SetPreset(presetIdx);
     auto preset = presetStore.Read(banks.GetCurrentBank(), banks.GetCurrentPreset());
 
     editTracker.SetPreset(preset);
@@ -85,46 +85,72 @@ static void handlePushbuttonPress(OneButton *oneButton)
 
 void setup()
 {
+    // Add initial delay to let power stabilize
+    delay(100);  
+
     D_SerialBegin(9600);
     D_println("*** LCD EQ PEDAL ***");
 
-    SPI.begin();
-    lcd.Begin();
+    // Add delay after serial init
+    delay(50);
 
+    SPI.begin();
+    delay(50);  // Add delay after SPI init
+    
+    D_println("SPI initialized...");
+
+    lcd.Begin();
+    delay(2000);  // Give LCD more time to initialize
+
+    D_println("LCD initialized...");
+
+    // Group similar inputs together with small delays between groups
+    // Footswitches
     footswitch1.setup(FOOTSWITCH_1_PIN, INPUT_PULLUP, true);
+    footswitch2.setup(FOOTSWITCH_2_PIN, INPUT_PULLUP, true);
+    footswitch3.setup(FOOTSWITCH_3_PIN, INPUT_PULLUP, true);
+    delay(50);
+
+    // Set press threshold for all footswitches
     footswitch1.setPressMs(LONG_PRESS_THRESHOLD);
+    footswitch2.setPressMs(LONG_PRESS_THRESHOLD);
+    footswitch3.setPressMs(LONG_PRESS_THRESHOLD);
+    delay(50);
+
+    // Attach callbacks for footswitches
     footswitch1.attachClick(handleFootswitchPress, &footswitch1);
     footswitch1.attachLongPressStart(handleFootswitchLongPress, &footswitch1);
     footswitch1.attachDoubleClick(handleFootswitchDoublePress, &footswitch1);
-
-    footswitch2.setup(FOOTSWITCH_2_PIN, INPUT_PULLUP, true);
-    footswitch2.setPressMs(LONG_PRESS_THRESHOLD);
+    
     footswitch2.attachClick(handleFootswitchPress, &footswitch2);
     footswitch2.attachLongPressStart(handleFootswitchLongPress, &footswitch2);
     footswitch2.attachDoubleClick(handleFootswitchDoublePress, &footswitch2);
-
-    footswitch3.setup(FOOTSWITCH_3_PIN, INPUT_PULLUP, true);
-    footswitch3.setPressMs(LONG_PRESS_THRESHOLD);
+    
     footswitch3.attachClick(handleFootswitchPress, &footswitch3);
     footswitch3.attachLongPressStart(handleFootswitchLongPress, &footswitch3);
     footswitch3.attachDoubleClick(handleFootswitchDoublePress, &footswitch3);
+    delay(50);
 
+    // Setup other buttons
     ampSwitchButton.setup(AMP_SWITCH_BUTTON_PIN, INPUT_PULLUP, true);
-    ampSwitchButton.attachClick(handlePushbuttonPress, &ampSwitchButton);
-
     loop1Button.setup(LOOP1_BUTTON_PIN, INPUT_PULLUP, true);
-    loop1Button.attachClick(handlePushbuttonPress, &loop1Button);
-
     loop2Button.setup(LOOP2_BUTTON_PIN, INPUT_PULLUP, true);
-    loop2Button.attachClick(handlePushbuttonPress, &loop2Button);
-
     loop3Button.setup(LOOP3_BUTTON_PIN, INPUT_PULLUP, true);
-    loop3Button.attachClick(handlePushbuttonPress, &loop3Button);
-
     loop4Button.setup(LOOP4_BUTTON_PIN, INPUT_PULLUP, true);
-    loop4Button.attachClick(handlePushbuttonPress, &loop4Button);
+    delay(50);
 
+    // Attach callbacks for other buttons
+    ampSwitchButton.attachClick(handlePushbuttonPress, &ampSwitchButton);
+    loop1Button.attachClick(handlePushbuttonPress, &loop1Button);
+    loop2Button.attachClick(handlePushbuttonPress, &loop2Button);
+    loop3Button.attachClick(handlePushbuttonPress, &loop3Button);
+    loop4Button.attachClick(handlePushbuttonPress, &loop4Button);
+    delay(50);
+
+    // Load preset with increased delay
+    delay(1500);
     loadPreset(0);
+    delay(1500);
 }
 
 const int cooldownLimit = 100; // Number of loops to skip after stability detected
@@ -147,6 +173,8 @@ void loop()
             lcd.Draw(preset, banks.GetCurrentBank());
             vactrols.ApplyPreset(preset);
             pushbuttons.ApplyPreset(preset);
+
+            relays.UnBypass();
 
             forceApply = false;
         }
