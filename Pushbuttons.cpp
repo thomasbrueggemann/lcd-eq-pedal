@@ -33,25 +33,57 @@ void Pushbuttons::ApplyPreset(Preset &preset)
 
 void Pushbuttons::HandlePress(int pin)
 {
-  Serial.println("Button pin pressed:");
-  Serial.println(pin);
-
 	switch (pin)
 	{
 	case AMP_SWITCH_BUTTON_PIN:
-		ampSwitchPressed = !ampSwitchPressed;
+		if (ampSwitchPressed == true)
+		{
+			ampSwitchPressed = false;
+		}
+		else
+		{
+			ampSwitchPressed = true;
+		}
 		break;
 	case LOOP1_BUTTON_PIN:
-		loop1Pressed = !loop1Pressed;
+		if (loop1Pressed == true)
+		{
+			loop1Pressed = false;
+		}
+		else
+		{
+			loop1Pressed = true;
+		}
 		break;
 	case LOOP2_BUTTON_PIN:
-		loop2Pressed = !loop2Pressed;
+		if (loop2Pressed == true)
+		{
+			loop2Pressed = false;
+		}
+		else
+		{
+			loop2Pressed = true;
+		}
 		break;
 	case LOOP3_BUTTON_PIN:
-		loop3Pressed = !loop3Pressed;
+		if (loop3Pressed == true)
+		{
+			loop3Pressed = false;
+		}
+		else
+		{
+			loop3Pressed = true;
+		}
 		break;
 	case LOOP4_BUTTON_PIN:
-		loop4Pressed = !loop4Pressed;
+		if(loop4Pressed == true)
+		{
+			loop4Pressed = false;
+		}
+		else
+		{
+			loop4Pressed = true;
+		}
 		break;
 	}
 

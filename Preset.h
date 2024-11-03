@@ -17,6 +17,8 @@ public:
 	bool Loop3;
 	bool Loop4;
 
+	bool PresetChanged;
+
 	Preset() {}
 
 	Preset(AnalogPotValues &values)
