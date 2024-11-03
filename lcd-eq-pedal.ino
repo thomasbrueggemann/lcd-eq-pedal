@@ -2,6 +2,7 @@
 #include <SPI.h>
 #include <OneButton.h>
 
+#include "Debug.h"
 #include "LCD.h"
 #include "AnalogPots.h"
 #include "Banks.h"
@@ -32,8 +33,6 @@ OneButton loop1Button;
 OneButton loop2Button;
 OneButton loop3Button;
 OneButton loop4Button;
-
-bool reRender = false;
 
 static void loadPreset(int footswitchIndex)
 {
@@ -67,12 +66,10 @@ static void handleFootswitchDoublePress(OneButton *oneButton)
     if (footswitchIndex == 0)
     {
         banks.BankDown();
-        reRender = true;
     }
     else if (footswitchIndex == 2)
     {
         banks.BankUp();
-        reRender = true;
     }
 
     loadPreset(0);
@@ -85,8 +82,8 @@ static void handlePushbuttonPress(OneButton *oneButton)
 
 void setup()
 {
-    Serial.begin(9600);
-    Serial.println("*** LCD EQ PEDAL ***");
+    D_SerialBegin(9600);
+    D_println("*** LCD EQ PEDAL ***");
 
     SPI.begin();
     lcd.Begin();
@@ -132,19 +129,14 @@ int cooldownCounter = 0;
 
 void loop()
 {
-    if (cooldownCounter == 0 || reRender == true)
+    if (cooldownCounter == 0)
     {
         auto analogPotValues = analogPots.Read();
         auto pushbuttonValues = pushbuttons.Read();
 
         auto preset = editTracker.TrackChanges(analogPotValues, pushbuttonValues);
 
-        if(preset.PresetChanged)
-        {
-            reRender = true;
-        }
-
-        if (reRender)
+        if (preset.PresetChanged)
         {
             cooldownCounter = 0;
 
@@ -173,6 +165,4 @@ void loop()
     footswitch1.tick();
     footswitch2.tick();
     footswitch3.tick();
-
-    reRender = false;
 }

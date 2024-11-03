@@ -19,9 +19,6 @@ void Banks::BankUp()
 		currentBank = 0;
 	}
 
-	Serial.print("Bank up, new bank: ");
-	Serial.println(currentBank);
-
 	SetPreset(0);
 }
 
@@ -32,9 +29,6 @@ void Banks::BankDown()
 	if (currentBank < 0) {
 		currentBank = MAX_BANKS;
 	}
-
-	Serial.print("Bank down, new bank: ");
-	Serial.println(currentBank);
 
 	SetPreset(0);
 }

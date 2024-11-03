@@ -2,7 +2,9 @@
 #define PRESET_H
 
 #include <Arduino.h>
+
 #include "AnalogPotValues.h"
+#include "Debug.h"
 
 class Preset
 {
@@ -36,15 +38,15 @@ public:
 
 	void Print()
 	{
-		Serial.print("Bass: " + String(Bass));
-		Serial.print(", Middle: " + String(Middle));
-		Serial.print(", Treble: " + String(Treble));
-		Serial.println(", Volume: " + String(Volume));
-		Serial.print("AmpSwitch: " + String(AmpSwitch ? "On" : "Off"));
-		Serial.print(", Loop1: " + String(Loop1 ? "On" : "Off"));
-		Serial.print(", Loop2: " + String(Loop2 ? "On" : "Off"));
-		Serial.print(", Loop3: " + String(Loop3 ? "On" : "Off"));
-		Serial.println(", Loop4: " + String(Loop4 ? "On" : "Off"));
+		D_print("Bass: " + String(Bass));
+		D_print(", Middle: " + String(Middle));
+		D_print(", Treble: " + String(Treble));
+		D_println(", Volume: " + String(Volume));
+		D_print("AmpSwitch: " + String(AmpSwitch ? "On" : "Off"));
+		D_print(", Loop1: " + String(Loop1 ? "On" : "Off"));
+		D_print(", Loop2: " + String(Loop2 ? "On" : "Off"));
+		D_print(", Loop3: " + String(Loop3 ? "On" : "Off"));
+		D_println(", Loop4: " + String(Loop4 ? "On" : "Off"));
 	}
 };
 
