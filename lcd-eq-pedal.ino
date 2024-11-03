@@ -34,6 +34,8 @@ OneButton loop2Button;
 OneButton loop3Button;
 OneButton loop4Button;
 
+bool forceApply = true;
+
 static void loadPreset(int footswitchIndex)
 {
     footswitches.HandlePress(footswitchIndex);
@@ -42,6 +44,7 @@ static void loadPreset(int footswitchIndex)
     auto preset = presetStore.Read(banks.GetCurrentBank(), banks.GetCurrentPreset());
 
     editTracker.SetPreset(preset);
+    forceApply = true;
 }
 
 static void handleFootswitchPress(OneButton *oneButton)
@@ -136,7 +139,7 @@ void loop()
 
         auto preset = editTracker.TrackChanges(analogPotValues, pushbuttonValues);
 
-        if (preset.PresetChanged)
+        if (preset.PresetChanged || forceApply == true)
         {
             cooldownCounter = 0;
 
@@ -144,6 +147,8 @@ void loop()
             lcd.Draw(preset, banks.GetCurrentBank());
             vactrols.ApplyPreset(preset);
             pushbuttons.ApplyPreset(preset);
+
+            forceApply = false;
         }
         else
         {
