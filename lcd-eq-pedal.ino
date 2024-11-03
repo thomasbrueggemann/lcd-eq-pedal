@@ -33,6 +33,8 @@ OneButton loop2Button;
 OneButton loop3Button;
 OneButton loop4Button;
 
+bool reRender = false;
+
 static void loadPreset(int footswitchIndex)
 {
     footswitches.HandlePress(footswitchIndex);
@@ -65,11 +67,15 @@ static void handleFootswitchDoublePress(OneButton *oneButton)
     if (footswitchIndex == 0)
     {
         banks.BankDown();
+        reRender = true;
     }
     else if (footswitchIndex == 2)
     {
         banks.BankUp();
+        reRender = true;
     }
+
+    loadPreset(0);
 }
 
 static void handlePushbuttonPress(OneButton *oneButton)
@@ -126,14 +132,19 @@ int cooldownCounter = 0;
 
 void loop()
 {
-    if (cooldownCounter == 0)
+    if (cooldownCounter == 0 || reRender == true)
     {
         auto analogPotValues = analogPots.Read();
         auto pushbuttonValues = pushbuttons.Read();
 
         auto preset = editTracker.TrackChanges(analogPotValues, pushbuttonValues);
 
-        if (preset.PresetChanged)
+        if(preset.PresetChanged)
+        {
+            reRender = true;
+        }
+
+        if (reRender)
         {
             cooldownCounter = 0;
 
