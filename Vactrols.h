@@ -4,10 +4,11 @@
 #include <Arduino.h>
 #include <SPI.h>
 
-#include "MCP4261.h"
 #include "Preset.h"
 
-#define ADDRESS 0x11
+#define SINGLE_POT_ADDRESS 0x11
+#define DOUBLE_POT_ADDRESS_A 0x00
+#define DOUBLE_POT_ADDRESS_B 0x10
 
 #define LOOKUP_PWM_IDX 0
 #define LOOKUP_POT_IDX 1
@@ -41,11 +42,9 @@ public:
 	void SetVolume(int value);
 
 private:
-	void setDoubleVactrol(int value, MCP4261 &digipot, int pwm1Pin, int pwm2Pin, int vactrolLookup[256][2]);
+	void setDoubleVactrol(int value, int csPin, int pwm1Pin, int pwm2Pin, int vactrolLookup[256][2]);
 
-	MCP4261 bassPot;
-	MCP4261 midPot;
-	MCP4261 treblePot;
+	void setDigiPot(int csPin, int address, int value) ;
 
 	int VolumeLookup[256][2] = {
 		{251, 0},
