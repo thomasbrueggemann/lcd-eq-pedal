@@ -5,8 +5,8 @@
 
 #if DEBUG
 #define D_SerialBegin(...) Serial.begin(__VA_ARGS__);
-#define D_print(...)    D_print(__VA_ARGS__)
-#define D_println(...)  D_println(__VA_ARGS__)
+#define D_print(...)    Serial.print(__VA_ARGS__)
+#define D_println(...)  Serial.println(__VA_ARGS__)
 #else
 #define D_SerialBegin(...)
 #define D_print(...)

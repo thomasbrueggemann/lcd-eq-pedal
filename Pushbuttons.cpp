@@ -22,13 +22,35 @@ PushbuttonValues Pushbuttons::Read()
 
 void Pushbuttons::ApplyPreset(Preset &preset)
 {
-	ampSwitchPressed = preset.AmpSwitch;
-	loop1Pressed = preset.Loop1;
-	loop2Pressed = preset.Loop2;
-	loop3Pressed = preset.Loop3;
-	loop4Pressed = preset.Loop4;
+	if (preset.AmpSwitch != ampSwitchPressed)
+	{
+		ampSwitchPressed = preset.AmpSwitch;
+		digitalWrite(AMP_SWITCH_LED_PIN, ampSwitchPressed ? HIGH : LOW);
+	}
 
-	toggleLeds();
+	if (preset.Loop1 != loop1Pressed)
+	{
+		loop1Pressed = preset.Loop1;
+		digitalWrite(LOOP1_LED_PIN, loop1Pressed ? HIGH : LOW);
+	}
+
+	if (preset.Loop2 != loop2Pressed)
+	{
+		loop2Pressed = preset.Loop2;
+		digitalWrite(LOOP2_LED_PIN, loop2Pressed ? HIGH : LOW);
+	}
+
+	if (preset.Loop3 != loop3Pressed)
+	{
+		loop3Pressed = preset.Loop3;
+		digitalWrite(LOOP3_LED_PIN, loop3Pressed ? HIGH : LOW);
+	}
+
+	if (preset.Loop4 != loop4Pressed)
+	{
+		loop4Pressed = preset.Loop4;
+		digitalWrite(LOOP4_LED_PIN, loop4Pressed ? HIGH : LOW);
+	}
 }
 
 void Pushbuttons::HandlePress(int pin)
@@ -44,6 +66,8 @@ void Pushbuttons::HandlePress(int pin)
 		{
 			ampSwitchPressed = true;
 		}
+
+		digitalWrite(AMP_SWITCH_LED_PIN, ampSwitchPressed ? HIGH : LOW);
 		break;
 	case LOOP1_BUTTON_PIN:
 		if (loop1Pressed == true)
@@ -54,6 +78,7 @@ void Pushbuttons::HandlePress(int pin)
 		{
 			loop1Pressed = true;
 		}
+		digitalWrite(LOOP1_LED_PIN, loop1Pressed ? HIGH : LOW);
 		break;
 	case LOOP2_BUTTON_PIN:
 		if (loop2Pressed == true)
@@ -64,6 +89,7 @@ void Pushbuttons::HandlePress(int pin)
 		{
 			loop2Pressed = true;
 		}
+		digitalWrite(LOOP2_LED_PIN, loop2Pressed ? HIGH : LOW);
 		break;
 	case LOOP3_BUTTON_PIN:
 		if (loop3Pressed == true)
@@ -74,9 +100,10 @@ void Pushbuttons::HandlePress(int pin)
 		{
 			loop3Pressed = true;
 		}
+		digitalWrite(LOOP3_LED_PIN, loop3Pressed ? HIGH : LOW);
 		break;
 	case LOOP4_BUTTON_PIN:
-		if(loop4Pressed == true)
+		if (loop4Pressed == true)
 		{
 			loop4Pressed = false;
 		}
@@ -84,17 +111,7 @@ void Pushbuttons::HandlePress(int pin)
 		{
 			loop4Pressed = true;
 		}
+		digitalWrite(LOOP4_LED_PIN, loop4Pressed ? HIGH : LOW);
 		break;
 	}
-
-	toggleLeds();
-}
-
-void Pushbuttons::toggleLeds()
-{
-	digitalWrite(AMP_SWITCH_LED_PIN, ampSwitchPressed ? HIGH : LOW);
-	digitalWrite(LOOP1_LED_PIN, loop1Pressed ? HIGH : LOW);
-	digitalWrite(LOOP2_LED_PIN, loop2Pressed ? HIGH : LOW);
-	digitalWrite(LOOP3_LED_PIN, loop3Pressed ? HIGH : LOW);
-	digitalWrite(LOOP4_LED_PIN, loop4Pressed ? HIGH : LOW);
 }

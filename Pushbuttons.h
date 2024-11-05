@@ -30,8 +30,6 @@ private:
 	bool loop2Pressed = false;
 	bool loop3Pressed = false;
 	bool loop4Pressed = false;
-
-	void toggleLeds();
 };
 
 #endif // PUSHBUTTONS_H

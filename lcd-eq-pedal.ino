@@ -14,6 +14,8 @@
 #include "Pushbuttons.h"
 #include "Preset.h"
 
+#define COOLDOWN_LIMIT 500
+
 LCD lcd;
 Relays relays;
 Vactrols vactrols;
@@ -34,16 +36,23 @@ OneButton loop2Button;
 OneButton loop3Button;
 OneButton loop4Button;
 
-bool forceApply = true;
+static void applyPreset(Preset &preset) {
+  vactrols.ApplyPreset(preset);
+  relays.Toggle(preset);
+  pushbuttons.ApplyPreset(preset);
+  lcd.Draw(preset, banks.GetCurrentBank());
+}
 
 static void loadPreset(int footswitchIndex) {
-  int presetIdx = footswitches.HandlePress(footswitchIndex);
 
-  banks.SetPreset(presetIdx);
-  auto preset = presetStore.Read(banks.GetCurrentBank(), banks.GetCurrentPreset());
+  int presetIdx = footswitches.GetPresetIndex(footswitchIndex);
+  auto preset = presetStore.Read(banks.GetCurrentBank(), presetIdx);
 
+  applyPreset(preset);
+  
   editTracker.SetPreset(preset);
-  forceApply = true;
+  footswitches.HandlePress(footswitchIndex);
+  banks.SetPreset(presetIdx);
 }
 
 static void handleFootswitchPress(OneButton *oneButton) {
@@ -142,9 +151,10 @@ void setup() {
   delay(150);
   loadPreset(0);
   delay(150);
+
+  relays.UnBypass();
 }
 
-const int cooldownLimit = 100;  // Number of loops to skip after stability detected
 int cooldownCounter = 0;
 
 void loop() {
@@ -154,19 +164,11 @@ void loop() {
 
     auto preset = editTracker.TrackChanges(analogPotValues, pushbuttonValues);
 
-    if (preset.PresetChanged || forceApply == true) {
+    if (preset.PresetChanged) {
       cooldownCounter = 0;
-
-      relays.Toggle(preset);
-      lcd.Draw(preset, banks.GetCurrentBank());
-      vactrols.ApplyPreset(preset);
-      pushbuttons.ApplyPreset(preset);
-
-      relays.UnBypass();
-
-      forceApply = false;
+      applyPreset(preset);
     } else {
-      cooldownCounter = cooldownLimit;
+      cooldownCounter = COOLDOWN_LIMIT;
     }
 
     analogPots.Tick();
@@ -177,6 +179,7 @@ void loop() {
     loop4Button.tick();
   } else {
     cooldownCounter--;
+    D_println(cooldownCounter);
   }
 
   footswitch1.tick();

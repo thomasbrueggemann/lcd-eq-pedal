@@ -24,10 +24,21 @@ int Footswitches::PinToIndex(int pin)
 	}
 }
 
-int Footswitches::HandlePress(int footswitchIndex)
+int Footswitches::GetPresetIndex(int footswitchIndex)
 {
-	int presetIndex = 0;
+	switch (footswitchIndex)
+	{
+	case 0:
+		return footswitch1State == ACTIVE_B || footswitch1State == INACTIVE ? 0 : 1;
+	case 1:
+		return footswitch2State == ACTIVE_B || footswitch2State == INACTIVE ? 2 : 3;
+	case 2:
+		return footswitch3State == ACTIVE_B || footswitch2State == INACTIVE ? 4 : 5;
+	}
+}
 
+void Footswitches::HandlePress(int footswitchIndex)
+{
 	switch (footswitchIndex)
 	{
 	case 0:
@@ -37,14 +48,12 @@ int Footswitches::HandlePress(int footswitchIndex)
 			footswitch1State = ACTIVE_A;
 			footswitch1ActiveLedPin = FOOTSWITCH_1_LED_A_PIN;
 			footswitch1InactiveLedPin = FOOTSWITCH_1_LED_B_PIN;
-			presetIndex = 0;
 		}
 		else
 		{
 			footswitch1State = ACTIVE_B;
 			footswitch1ActiveLedPin = FOOTSWITCH_1_LED_B_PIN;
 			footswitch1InactiveLedPin = FOOTSWITCH_1_LED_A_PIN;
-			presetIndex = 1;
 		}
 
 		footswitch2State = INACTIVE;
@@ -57,14 +66,12 @@ int Footswitches::HandlePress(int footswitchIndex)
 			footswitch2State = ACTIVE_A;
 			footswitch2ActiveLedPin = FOOTSWITCH_2_LED_A_PIN;
 			footswitch2InactiveLedPin = FOOTSWITCH_2_LED_B_PIN;
-			presetIndex = 2;
 		}
 		else
 		{
 			footswitch2State = ACTIVE_B;
 			footswitch2ActiveLedPin = FOOTSWITCH_2_LED_B_PIN;
 			footswitch2InactiveLedPin = FOOTSWITCH_2_LED_A_PIN;
-			presetIndex = 3;
 		}
 
 		footswitch1State = INACTIVE;
@@ -78,14 +85,12 @@ int Footswitches::HandlePress(int footswitchIndex)
 			footswitch3State = ACTIVE_A;
 			footswitch3ActiveLedPin = FOOTSWITCH_3_LED_A_PIN;
 			footswitch3InactiveLedPin = FOOTSWITCH_3_LED_B_PIN;
-			presetIndex = 4;
 		}
 		else
 		{
 			footswitch3State = ACTIVE_B;
 			footswitch3ActiveLedPin = FOOTSWITCH_3_LED_B_PIN;
 			footswitch3InactiveLedPin = FOOTSWITCH_3_LED_A_PIN;
-			presetIndex = 5;
 		}
 
 		footswitch1State = INACTIVE;
@@ -95,8 +100,6 @@ int Footswitches::HandlePress(int footswitchIndex)
 	}
 
 	toggleLeds(footswitchIndex);
-
-	return presetIndex;
 }
 
 void Footswitches::HandleLongPress(int footswitchIndex)
