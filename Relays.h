@@ -18,6 +18,11 @@ public:
 	void UnBypass();
 
 private:
+	bool ampSwitchToggled = false;
+	bool loop1Toggled = false;
+	bool loop2Toggled = false;
+	bool loop3Toggled = false;
+	bool loop4Toggled = false;
 };
 
 #endif // RELAYS_H
