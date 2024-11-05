@@ -12,10 +12,14 @@ class PresetStore
 {
 public:
 	void Write(int bank, int preset, Preset &payload);
-	Preset Read(int bank, int preset);
+	Preset Read(int preset);
+	void PreloadBank(int bank);
 
 private:
 	int getStartingAddress(int bank, int preset);
+
+	Preset BankPresets[6];
+
 };
 
 #endif // PRESETSTORE_H

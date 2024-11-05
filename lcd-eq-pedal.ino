@@ -36,31 +36,35 @@ OneButton loop2Button;
 OneButton loop3Button;
 OneButton loop4Button;
 
-static void applyPreset(Preset &preset) {
+static void applyPreset(Preset &preset)
+{
   vactrols.ApplyPreset(preset);
   relays.Toggle(preset);
   pushbuttons.ApplyPreset(preset);
   lcd.Draw(preset, banks.GetCurrentBank());
 }
 
-static void loadPreset(int footswitchIndex) {
+static void loadPreset(int footswitchIndex)
+{
 
   int presetIdx = footswitches.GetPresetIndex(footswitchIndex);
-  auto preset = presetStore.Read(banks.GetCurrentBank(), presetIdx);
+  auto preset = presetStore.Read(presetIdx);
 
   applyPreset(preset);
-  
+
   editTracker.SetPreset(preset);
   footswitches.HandlePress(footswitchIndex);
   banks.SetPreset(presetIdx);
 }
 
-static void handleFootswitchPress(OneButton *oneButton) {
+static void handleFootswitchPress(OneButton *oneButton)
+{
   int footswitchIndex = footswitches.PinToIndex(oneButton->pin());
   loadPreset(footswitchIndex);
 }
 
-static void handleFootswitchLongPress(OneButton *oneButton) {
+static void handleFootswitchLongPress(OneButton *oneButton)
+{
   int footswitchIndex = footswitches.PinToIndex(oneButton->pin());
 
   auto preset = editTracker.GetPreset();
@@ -69,39 +73,38 @@ static void handleFootswitchLongPress(OneButton *oneButton) {
   footswitches.HandleLongPress(footswitchIndex);
 }
 
-static void handleFootswitchDoublePress(OneButton *oneButton) {
+static void handleFootswitchDoublePress(OneButton *oneButton)
+{
   int footswitchIndex = footswitches.PinToIndex(oneButton->pin());
-  if (footswitchIndex == 0) {
+  if (footswitchIndex == 0)
+  {
     banks.BankDown();
-  } else if (footswitchIndex == 2) {
+  }
+  else if (footswitchIndex == 2)
+  {
     banks.BankUp();
   }
 
+  footswitches.ResetState();
+  presetStore.PreloadBank(banks.GetCurrentBank());
   loadPreset(0);
 }
 
-static void handlePushbuttonPress(OneButton *oneButton) {
+static void handlePushbuttonPress(OneButton *oneButton)
+{
   pushbuttons.HandlePress(oneButton->pin());
 }
 
-void setup() {
-
-  // Add initial delay to let power stabilize
-  delay(100);
-
+void setup()
+{
   D_SerialBegin(9600);
   D_println("*** LCD EQ PEDAL ***");
 
-  // Add delay after serial init
-  delay(50);
-
   SPI.begin();
-  delay(50);  // Add delay after SPI init
 
   D_println("SPI initialized...");
 
   lcd.Begin();
-  delay(200);  // Give LCD more time to initialize
 
   D_println("LCD initialized...");
 
@@ -109,13 +112,11 @@ void setup() {
   footswitch1.setup(FOOTSWITCH_1_PIN, INPUT_PULLUP, true);
   footswitch2.setup(FOOTSWITCH_2_PIN, INPUT_PULLUP, true);
   footswitch3.setup(FOOTSWITCH_3_PIN, INPUT_PULLUP, true);
-  delay(50);
 
   // Set press threshold for all footswitches
   footswitch1.setPressMs(LONG_PRESS_THRESHOLD);
   footswitch2.setPressMs(LONG_PRESS_THRESHOLD);
   footswitch3.setPressMs(LONG_PRESS_THRESHOLD);
-  delay(50);
 
   // Attach callbacks for footswitches
   footswitch1.attachClick(handleFootswitchPress, &footswitch1);
@@ -129,7 +130,6 @@ void setup() {
   footswitch3.attachClick(handleFootswitchPress, &footswitch3);
   footswitch3.attachLongPressStart(handleFootswitchLongPress, &footswitch3);
   footswitch3.attachDoubleClick(handleFootswitchDoublePress, &footswitch3);
-  delay(50);
 
   // Setup other buttons
   ampSwitchButton.setup(AMP_SWITCH_BUTTON_PIN, INPUT_PULLUP, true);
@@ -137,7 +137,6 @@ void setup() {
   loop2Button.setup(LOOP2_BUTTON_PIN, INPUT_PULLUP, true);
   loop3Button.setup(LOOP3_BUTTON_PIN, INPUT_PULLUP, true);
   loop4Button.setup(LOOP4_BUTTON_PIN, INPUT_PULLUP, true);
-  delay(50);
 
   // Attach callbacks for other buttons
   ampSwitchButton.attachClick(handlePushbuttonPress, &ampSwitchButton);
@@ -145,29 +144,31 @@ void setup() {
   loop2Button.attachClick(handlePushbuttonPress, &loop2Button);
   loop3Button.attachClick(handlePushbuttonPress, &loop3Button);
   loop4Button.attachClick(handlePushbuttonPress, &loop4Button);
-  delay(50);
 
-  // Load preset with increased delay
-  delay(150);
+  presetStore.PreloadBank(banks.GetCurrentBank());
   loadPreset(0);
-  delay(150);
 
   relays.UnBypass();
 }
 
 int cooldownCounter = 0;
 
-void loop() {
-  if (cooldownCounter == 0) {
+void loop()
+{
+  if (cooldownCounter == 0)
+  {
     auto analogPotValues = analogPots.Read();
     auto pushbuttonValues = pushbuttons.Read();
 
     auto preset = editTracker.TrackChanges(analogPotValues, pushbuttonValues);
 
-    if (preset.PresetChanged) {
+    if (preset.PresetChanged)
+    {
       cooldownCounter = 0;
       applyPreset(preset);
-    } else {
+    }
+    else
+    {
       cooldownCounter = COOLDOWN_LIMIT;
     }
 
@@ -177,7 +178,9 @@ void loop() {
     loop2Button.tick();
     loop3Button.tick();
     loop4Button.tick();
-  } else {
+  }
+  else
+  {
     cooldownCounter--;
     D_println(cooldownCounter);
   }

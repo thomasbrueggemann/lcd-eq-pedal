@@ -25,16 +25,21 @@ void PresetStore::Write(int bank, int preset, Preset &payload)
 	int startingAddress = getStartingAddress(bank, preset);
 
 	EEPROM.put(startingAddress, payload);
+	BankPresets[preset] = payload;
 }
 
-Preset PresetStore::Read(int bank, int preset)
+Preset PresetStore::Read(int preset)
 {
-	Preset p;
+	return BankPresets[preset];
+}
 
-	int startingAddress = getStartingAddress(bank, preset);
-	EEPROM.get(startingAddress, p);
-
-	return p;
+void PresetStore::PreloadBank(int bank)
+{
+	for(int i = 0; i < NUM_PRESETS_PER_BANK; i++)
+	{
+		int startingAddress = getStartingAddress(bank, i);
+		EEPROM.get(startingAddress, BankPresets[i]);
+	}
 }
 
 int PresetStore::getStartingAddress(int bank, int preset)

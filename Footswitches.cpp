@@ -24,6 +24,13 @@ int Footswitches::PinToIndex(int pin)
 	}
 }
 
+void Footswitches::ResetState()
+{
+	footswitch1State = INACTIVE;
+	footswitch2State = INACTIVE;
+	footswitch3State = INACTIVE;
+}
+
 int Footswitches::GetPresetIndex(int footswitchIndex)
 {
 	switch (footswitchIndex)

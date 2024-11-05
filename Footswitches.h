@@ -35,6 +35,7 @@ class Footswitches
 public:
 	Footswitches();
 
+	void ResetState();
 	int GetPresetIndex(int footswitchIndex);
 	void HandlePress(int footswitchIndex);
 	void HandleLongPress(int footswitchIndex);
