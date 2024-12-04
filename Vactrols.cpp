@@ -1,11 +1,21 @@
 #include "Vactrols.h"
 
-Vactrols::Vactrols()
+Vactrols::Vactrols() : volumeDAC(VOLUME_DAC_CS), bassDAC(BASS_DAC_CS), midDAC(MID_DAC_CS), trebleDAC(TREBLE_DAC_CS)
 {
-	pinMode(BASS_POT_CS, OUTPUT);
-	pinMode(MID_POT_CS, OUTPUT);
-	pinMode(TREBLE_POT_CS, OUTPUT);
-	pinMode(VOLUME_POT_CS, OUTPUT);
+	volumeDAC.init();
+	volumeDAC.turnOnChannelA();
+
+	bassDAC.init();
+	bassDAC.turnOnChannelA();
+	bassDAC.turnOnChannelB();
+
+	midDAC.init();
+	midDAC.turnOnChannelA();
+	midDAC.turnOnChannelB();
+
+	trebleDAC.init();
+	trebleDAC.turnOnChannelA();
+	trebleDAC.turnOnChannelB();
 }
 
 void Vactrols::ApplyPreset(Preset &preset)

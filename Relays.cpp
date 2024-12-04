@@ -49,3 +49,8 @@ void Relays::UnBypass()
 {
 	digitalWrite(RELAY_BYPASS_PIN, HIGH);
 }
+
+void Relays::Bypass() 
+{
+  digitalWrite(RELAY_BYPASS_PIN, LOW);
+}

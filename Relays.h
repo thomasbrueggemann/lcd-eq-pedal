@@ -16,6 +16,7 @@ public:
 	Relays();
 	void Toggle(Preset &preset);
 	void UnBypass();
+  void Bypass();
 
 private:
 	bool ampSwitchToggled = false;

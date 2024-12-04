@@ -7,9 +7,8 @@
 #include "PresetStore.h"
 #include "EditTracker.h"
 
-#define LONG_PRESS_THRESHOLD 1000
 #define LED_BLINK_TIMES 4
-#define LED_BLINK_DELAY 80
+#define LED_BLINK_DELAY 5120
 
 #define FOOTSWITCH_1_PIN 4
 #define FOOTSWITCH_2_PIN 5

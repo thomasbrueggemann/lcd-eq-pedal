@@ -16,6 +16,10 @@
 
 #define COOLDOWN_LIMIT 500
 
+#define DEBOUNCE_THRESHOLD 3200
+#define CLICK_THRESHOLD 25600
+#define LONG_PRESS_THRESHOLD 64000
+
 LCD lcd;
 Relays relays;
 Vactrols vactrols;
@@ -59,12 +63,14 @@ static void loadPreset(int footswitchIndex)
 
 static void handleFootswitchPress(OneButton *oneButton)
 {
+  D_println("Footswitch pressed");
   int footswitchIndex = footswitches.PinToIndex(oneButton->pin());
   loadPreset(footswitchIndex);
 }
 
 static void handleFootswitchLongPress(OneButton *oneButton)
 {
+  D_println("Footswitch long pressed");
   int footswitchIndex = footswitches.PinToIndex(oneButton->pin());
 
   auto preset = editTracker.GetPreset();
@@ -75,6 +81,7 @@ static void handleFootswitchLongPress(OneButton *oneButton)
 
 static void handleFootswitchDoublePress(OneButton *oneButton)
 {
+  D_println("Footswitch double pressed");
   int footswitchIndex = footswitches.PinToIndex(oneButton->pin());
   if (footswitchIndex == 0)
   {
@@ -92,6 +99,7 @@ static void handleFootswitchDoublePress(OneButton *oneButton)
 
 static void handlePushbuttonPress(OneButton *oneButton)
 {
+  D_println("Pushbutton");
   pushbuttons.HandlePress(oneButton->pin());
 }
 
@@ -112,6 +120,14 @@ void setup()
   footswitch1.setup(FOOTSWITCH_1_PIN, INPUT_PULLUP, true);
   footswitch2.setup(FOOTSWITCH_2_PIN, INPUT_PULLUP, true);
   footswitch3.setup(FOOTSWITCH_3_PIN, INPUT_PULLUP, true);
+
+  footswitch1.setDebounceMs(DEBOUNCE_THRESHOLD);
+  footswitch2.setDebounceMs(DEBOUNCE_THRESHOLD);
+  footswitch3.setDebounceMs(DEBOUNCE_THRESHOLD);
+
+  footswitch1.setClickMs(CLICK_THRESHOLD);
+  footswitch2.setClickMs(CLICK_THRESHOLD);
+  footswitch3.setClickMs(CLICK_THRESHOLD);
 
   // Set press threshold for all footswitches
   footswitch1.setPressMs(LONG_PRESS_THRESHOLD);
@@ -138,12 +154,18 @@ void setup()
   loop3Button.setup(LOOP3_BUTTON_PIN, INPUT_PULLUP, true);
   loop4Button.setup(LOOP4_BUTTON_PIN, INPUT_PULLUP, true);
 
+  ampSwitchButton.setDebounceMs(DEBOUNCE_THRESHOLD);
+  loop1Button.setDebounceMs(DEBOUNCE_THRESHOLD);
+  loop2Button.setDebounceMs(DEBOUNCE_THRESHOLD);
+  loop3Button.setDebounceMs(DEBOUNCE_THRESHOLD);
+  loop4Button.setDebounceMs(DEBOUNCE_THRESHOLD);
+
   // Attach callbacks for other buttons
-  ampSwitchButton.attachClick(handlePushbuttonPress, &ampSwitchButton);
-  loop1Button.attachClick(handlePushbuttonPress, &loop1Button);
-  loop2Button.attachClick(handlePushbuttonPress, &loop2Button);
-  loop3Button.attachClick(handlePushbuttonPress, &loop3Button);
-  loop4Button.attachClick(handlePushbuttonPress, &loop4Button);
+  ampSwitchButton.attachPress(handlePushbuttonPress, &ampSwitchButton);
+  loop1Button.attachPress(handlePushbuttonPress, &loop1Button);
+  loop2Button.attachPress(handlePushbuttonPress, &loop2Button);
+  loop3Button.attachPress(handlePushbuttonPress, &loop3Button);
+  loop4Button.attachPress(handlePushbuttonPress, &loop4Button);
 
   presetStore.PreloadBank(banks.GetCurrentBank());
   loadPreset(0);
@@ -172,18 +194,19 @@ void loop()
       cooldownCounter = COOLDOWN_LIMIT;
     }
 
-    analogPots.Tick();
+
+  }
+  else
+  {
+    cooldownCounter--;
+  }
+
+      analogPots.Tick();
     ampSwitchButton.tick();
     loop1Button.tick();
     loop2Button.tick();
     loop3Button.tick();
     loop4Button.tick();
-  }
-  else
-  {
-    cooldownCounter--;
-    D_println(cooldownCounter);
-  }
 
   footswitch1.tick();
   footswitch2.tick();
