@@ -28,53 +28,42 @@ void Vactrols::ApplyPreset(Preset &preset)
 
 void Vactrols::SetBass(int value)
 {
-	setDoubleVactrol(value, BASS_POT_CS, BASS_PWM1_PIN, BASS_PWM2_PIN, BassMiddleLookup);
+	auto mappedValueA = map(value, 0, 1023, 0, 102);
+	auto mappedValueB = map(value, 0, 1023, 0, 100);
+
+	bassDAC.setVoltageA(bass_a[mappedValueA]);
+	bassDAC.setVoltageB(bass_b[mappedValueB]);
+
+	bassDAC.updateDAC();
 }
 
 void Vactrols::SetMiddle(int value)
 {
-	setDoubleVactrol(value, MID_POT_CS, MID_PWM1_PIN, MID_PWM2_PIN, BassMiddleLookup);
+	auto mappedValueA = map(value, 0, 1023, 0, 97);
+	auto mappedValueB = map(value, 0, 1023, 0, 96);
+
+	midDAC.setVoltageA(mid_a[mappedValueA]);
+	midDAC.setVoltageB(mid_b[mappedValueB]);
+
+	midDAC.updateDAC();
 }
 
 void Vactrols::SetTreble(int value)
 {
-	setDoubleVactrol(value, TREBLE_POT_CS, TREBLE_PWM1_PIN, TREBLE_PWM2_PIN, TrebleLookup);
+	auto mappedValueA = map(value, 0, 1023, 0, 84);
+	auto mappedValueB = map(value, 0, 1023, 0, 84);
+
+	trebleDAC.setVoltageA(treble_a[mappedValueA]);
+	trebleDAC.setVoltageB(treble_b[mappedValueB]);
+
+	trebleDAC.updateDAC();
 }
 
 void Vactrols::SetVolume(int value)
 {
-	auto mappedValue = map(value, 0, 1023, 0, 255);
+	auto mappedValueA = map(value, 0, 1023, 0, 196);
 
-	auto pwmValue = VolumeLookup[mappedValue][LOOKUP_PWM_IDX];
-	auto potValue = VolumeLookup[mappedValue][LOOKUP_POT_IDX];
+	volumeDAC.setVoltageA(volume_a[mappedValueA]);
 
-	setDigiPot(VOLUME_POT_CS, SINGLE_POT_ADDRESS, potValue);
-	analogWrite(VOLUME_PWM1_PIN, pwmValue);
-}
-
-void Vactrols::setDoubleVactrol(int value, int csPin, int pwm1Pin, int pwm2Pin, int vactrolLookup[256][2])
-{
-	value = 1023 - value;
-	auto mappedValue = map(value, 0, 1023, 0, 255);
-
-	auto pwmValue = vactrolLookup[mappedValue][LOOKUP_PWM_IDX];
-	auto potValue = vactrolLookup[mappedValue][LOOKUP_POT_IDX];
-
-	setDigiPot(csPin, DOUBLE_POT_ADDRESS_A, potValue);
-	analogWrite(pwm1Pin, pwmValue);
-
-	auto inverseValue = 255 - mappedValue;
-	auto inversePwmValue = vactrolLookup[inverseValue][LOOKUP_PWM_IDX];
-	auto inversePotValue = vactrolLookup[inverseValue][LOOKUP_POT_IDX];
-
-	setDigiPot(csPin, DOUBLE_POT_ADDRESS_B, potValue);
-	analogWrite(pwm2Pin, inversePwmValue);
-}
-
-void Vactrols::setDigiPot(int csPin, int address, int value) 
-{
-	digitalWrite(csPin, LOW);
-	SPI.transfer(address);
-	SPI.transfer(value);
-	digitalWrite(csPin, HIGH);
+	volumeDAC.updateDAC();
 }
