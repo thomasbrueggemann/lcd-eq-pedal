@@ -4,17 +4,17 @@
 #include "Preset.h"
 #include "PushbuttonValues.h"
 
-#define LOOP1_BUTTON_PIN 17
-#define LOOP2_BUTTON_PIN 18
-#define AMP_SWITCH_BUTTON_PIN 19
-#define LOOP3_BUTTON_PIN 2
-#define LOOP4_BUTTON_PIN 3
+#define LOOP1_BUTTON_PIN 9
+#define LOOP2_BUTTON_PIN 12
+#define AMP_SWITCH_BUTTON_PIN 15
+#define LOOP3_BUTTON_PIN 14
+#define LOOP4_BUTTON_PIN 17
 
-#define LOOP1_LED_PIN 21
-#define LOOP2_LED_PIN 20
-#define AMP_SWITCH_LED_PIN 14
-#define LOOP3_LED_PIN 15
-#define LOOP4_LED_PIN 16
+#define LOOP1_LED_PIN 34
+#define LOOP2_LED_PIN 37
+#define AMP_SWITCH_LED_PIN 36
+#define LOOP3_LED_PIN 39
+#define LOOP4_LED_PIN 38
 
 class Pushbuttons
 {

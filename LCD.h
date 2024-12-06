@@ -6,11 +6,11 @@
 
 #include "Preset.h"
 
-#define LCD_PIN_DIN 41
-#define LCD_PIN_SCLK 39
-#define LCD_PIN_A0 37
-#define LCD_PIN_RESET 35
-#define LCD_PIN_CS 33
+#define LCD_PIN_DIN 29
+#define LCD_PIN_SCLK 31
+#define LCD_PIN_A0 30
+#define LCD_PIN_RESET 28
+#define LCD_PIN_CS 26
 
 #define CENTER 37
 #define BAR_WIDTH 20

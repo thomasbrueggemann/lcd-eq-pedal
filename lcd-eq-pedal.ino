@@ -15,10 +15,7 @@
 #include "Preset.h"
 
 #define COOLDOWN_LIMIT 500
-
-#define DEBOUNCE_THRESHOLD 3200
-#define CLICK_THRESHOLD 25600
-#define LONG_PRESS_THRESHOLD 64000
+#define LONG_PRESS_THRESHOLD 1000
 
 LCD lcd;
 Relays relays;
@@ -121,14 +118,6 @@ void setup()
   footswitch2.setup(FOOTSWITCH_2_PIN, INPUT_PULLUP, true);
   footswitch3.setup(FOOTSWITCH_3_PIN, INPUT_PULLUP, true);
 
-  footswitch1.setDebounceMs(DEBOUNCE_THRESHOLD);
-  footswitch2.setDebounceMs(DEBOUNCE_THRESHOLD);
-  footswitch3.setDebounceMs(DEBOUNCE_THRESHOLD);
-
-  footswitch1.setClickMs(CLICK_THRESHOLD);
-  footswitch2.setClickMs(CLICK_THRESHOLD);
-  footswitch3.setClickMs(CLICK_THRESHOLD);
-
   // Set press threshold for all footswitches
   footswitch1.setPressMs(LONG_PRESS_THRESHOLD);
   footswitch2.setPressMs(LONG_PRESS_THRESHOLD);
@@ -153,12 +142,6 @@ void setup()
   loop2Button.setup(LOOP2_BUTTON_PIN, INPUT_PULLUP, true);
   loop3Button.setup(LOOP3_BUTTON_PIN, INPUT_PULLUP, true);
   loop4Button.setup(LOOP4_BUTTON_PIN, INPUT_PULLUP, true);
-
-  ampSwitchButton.setDebounceMs(DEBOUNCE_THRESHOLD);
-  loop1Button.setDebounceMs(DEBOUNCE_THRESHOLD);
-  loop2Button.setDebounceMs(DEBOUNCE_THRESHOLD);
-  loop3Button.setDebounceMs(DEBOUNCE_THRESHOLD);
-  loop4Button.setDebounceMs(DEBOUNCE_THRESHOLD);
 
   // Attach callbacks for other buttons
   ampSwitchButton.attachPress(handlePushbuttonPress, &ampSwitchButton);

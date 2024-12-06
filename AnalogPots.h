@@ -7,8 +7,8 @@
 #include "AnalogPotValues.h"
 
 #define BASS_PIN A3
-#define MIDDLE_PIN A2
-#define TREBLE_PIN A1
+#define MIDDLE_PIN A1
+#define TREBLE_PIN A2
 #define VOLUME_PIN A0
 
 class AnalogPots

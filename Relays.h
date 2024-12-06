@@ -3,12 +3,12 @@
 
 #include "Preset.h"
 
-#define RELAY_AMPSWITCH_PIN 27
-#define RELAY_BYPASS_PIN 26
-#define RELAY_LOOP1_PIN 28
-#define RELAY_LOOP2_PIN 29
-#define RELAY_LOOP3_PIN 30
-#define RELAY_LOOP4_PIN 31
+#define RELAY_AMPSWITCH_PIN 50
+#define RELAY_BYPASS_PIN 16
+#define RELAY_LOOP1_PIN 20
+#define RELAY_LOOP2_PIN 21
+#define RELAY_LOOP3_PIN 18
+#define RELAY_LOOP4_PIN 19
 
 class Relays
 {

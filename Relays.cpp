@@ -14,6 +14,7 @@ Relays::Relays()
 
 void Relays::Toggle(Preset &preset)
 {
+  return;
 	if (ampSwitchToggled != preset.AmpSwitch)
 	{
 		ampSwitchToggled = preset.AmpSwitch;

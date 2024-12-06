@@ -29,7 +29,7 @@ void Vactrols::ApplyPreset(Preset &preset)
 void Vactrols::SetBass(int value)
 {
 	auto mappedValueA = map(value, 0, 1023, 0, 102);
-	auto mappedValueB = map(value, 0, 1023, 0, 100);
+	auto mappedValueB = map(1023 - value, 0, 1023, 0, 100);
 
 	bassDAC.setVoltageA(bass_a[mappedValueA]);
 	bassDAC.setVoltageB(bass_b[mappedValueB]);
@@ -40,7 +40,7 @@ void Vactrols::SetBass(int value)
 void Vactrols::SetMiddle(int value)
 {
 	auto mappedValueA = map(value, 0, 1023, 0, 97);
-	auto mappedValueB = map(value, 0, 1023, 0, 96);
+	auto mappedValueB = map(1023 - value, 0, 1023, 0, 96);
 
 	midDAC.setVoltageA(mid_a[mappedValueA]);
 	midDAC.setVoltageB(mid_b[mappedValueB]);
@@ -51,7 +51,7 @@ void Vactrols::SetMiddle(int value)
 void Vactrols::SetTreble(int value)
 {
 	auto mappedValueA = map(value, 0, 1023, 0, 84);
-	auto mappedValueB = map(value, 0, 1023, 0, 84);
+	auto mappedValueB = map(1023 - value, 0, 1023, 0, 84);
 
 	trebleDAC.setVoltageA(treble_a[mappedValueA]);
 	trebleDAC.setVoltageB(treble_b[mappedValueB]);
