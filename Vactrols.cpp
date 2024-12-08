@@ -61,7 +61,9 @@ void Vactrols::SetTreble(int value)
 
 void Vactrols::SetVolume(int value)
 {
-	auto mappedValueA = map(value, 0, 1023, 0, 196);
+	auto mappedValueA = map(value, 0, 1023, 0, 109);
+
+  	D_println(mappedValueA);
 
 	volumeDAC.setVoltageA(volume_a[mappedValueA]);
 
