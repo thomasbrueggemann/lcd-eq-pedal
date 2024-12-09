@@ -15,6 +15,7 @@
 #include "Preset.h"
 
 #define COOLDOWN_LIMIT 500
+#define SINGLE_PRESS_THRESHOLD 300
 #define LONG_PRESS_THRESHOLD 600
 
 LCD lcd;
@@ -50,8 +51,6 @@ static void loadPreset(int footswitchIndex)
 
   int presetIdx = footswitches.GetPresetIndex(footswitchIndex);
   auto preset = presetStore.Read(presetIdx);
-
-  preset.Loop3 = false;
 
   applyPreset(preset);
 
@@ -125,6 +124,10 @@ void setup()
   footswitch2.setPressMs(LONG_PRESS_THRESHOLD);
   footswitch3.setPressMs(LONG_PRESS_THRESHOLD);
 
+  footswitch1.setClickMs(SINGLE_PRESS_THRESHOLD);
+  footswitch2.setClickMs(SINGLE_PRESS_THRESHOLD);
+  footswitch3.setClickMs(SINGLE_PRESS_THRESHOLD);
+
   // Attach callbacks for footswitches
   footswitch1.attachClick(handleFootswitchPress, &footswitch1);
   footswitch1.attachLongPressStart(handleFootswitchLongPress, &footswitch1);
@@ -155,7 +158,7 @@ void setup()
   presetStore.PreloadBank(banks.GetCurrentBank());
   loadPreset(0);
 
-  relays.Bypass();
+  relays.UnBypass();
 }
 
 int cooldownCounter = 0;
