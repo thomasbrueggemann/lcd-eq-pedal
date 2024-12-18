@@ -43,6 +43,8 @@ static void applyPreset(Preset &preset)
   vactrols.ApplyPreset(preset);
   relays.Toggle(preset);
   pushbuttons.ApplyPreset(preset);
+
+  delay(50);
   lcd.Draw(preset, banks.GetCurrentBank());
 }
 
@@ -103,6 +105,8 @@ static void handlePushbuttonPress(OneButton *oneButton)
 
 void setup()
 {
+  pinMode(RESET_PIN, INPUT_PULLUP);  // Protect reset pin from noise
+
   D_SerialBegin(9600);
   D_println("*** LCD EQ PEDAL ***");
 

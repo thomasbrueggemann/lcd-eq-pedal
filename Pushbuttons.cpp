@@ -25,31 +25,36 @@ void Pushbuttons::ApplyPreset(Preset &preset)
 	if (preset.AmpSwitch != ampSwitchPressed)
 	{
 		ampSwitchPressed = preset.AmpSwitch;
-		digitalWrite(AMP_SWITCH_LED_PIN, ampSwitchPressed ? HIGH : LOW);
+		digitalWrite(AMP_SWITCH_LED_PIN, ampSwitchPressed ? LOW : HIGH);
+		delay(LED_TOGGLE_DELAY);
 	}
 
 	if (preset.Loop1 != loop1Pressed)
 	{
 		loop1Pressed = preset.Loop1;
 		digitalWrite(LOOP1_LED_PIN, loop1Pressed ? HIGH : LOW);
+		delay(LED_TOGGLE_DELAY);
 	}
 
 	if (preset.Loop2 != loop2Pressed)
 	{
 		loop2Pressed = preset.Loop2;
 		digitalWrite(LOOP2_LED_PIN, loop2Pressed ? HIGH : LOW);
+		delay(LED_TOGGLE_DELAY);
 	}
 
 	if (preset.Loop3 != loop3Pressed)
 	{
 		loop3Pressed = preset.Loop3;
 		digitalWrite(LOOP3_LED_PIN, loop3Pressed ? HIGH : LOW);
+		delay(LED_TOGGLE_DELAY);
 	}
 
 	if (preset.Loop4 != loop4Pressed)
 	{
 		loop4Pressed = preset.Loop4;
 		digitalWrite(LOOP4_LED_PIN, loop4Pressed ? HIGH : LOW);
+		delay(LED_TOGGLE_DELAY);
 	}
 }
 
@@ -67,7 +72,7 @@ void Pushbuttons::HandlePress(int pin)
 			ampSwitchPressed = true;
 		}
 
-		digitalWrite(AMP_SWITCH_LED_PIN, ampSwitchPressed ? HIGH : LOW);
+		digitalWrite(AMP_SWITCH_LED_PIN, ampSwitchPressed ? LOW : HIGH);
 		break;
 	case LOOP1_BUTTON_PIN:
 		if (loop1Pressed == true)

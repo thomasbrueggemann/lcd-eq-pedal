@@ -16,6 +16,8 @@
 #define LOOP3_LED_PIN 39
 #define LOOP4_LED_PIN 38
 
+#define LED_TOGGLE_DELAY 50
+
 class Pushbuttons
 {
 public:

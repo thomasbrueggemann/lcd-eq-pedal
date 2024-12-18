@@ -17,40 +17,86 @@ void Relays::Toggle(Preset &preset)
 	if (ampSwitchToggled != preset.AmpSwitch)
 	{
 		ampSwitchToggled = preset.AmpSwitch;
-		digitalWrite(RELAY_AMPSWITCH_PIN, ampSwitchToggled ? HIGH : LOW);
+
+		if (ampSwitchToggled)
+		{
+			digitalWrite(RELAY_AMPSWITCH_PIN, HIGH);
+			delay(RELAY_SWITCH_DELAY);
+		}
+		else
+		{
+			digitalWrite(RELAY_AMPSWITCH_PIN, LOW);
+		}
 	}
 
 	if (loop1Toggled != preset.Loop1)
 	{
 		loop1Toggled = preset.Loop1;
-		digitalWrite(RELAY_LOOP1_PIN, loop1Toggled ? HIGH : LOW);
+
+		if (loop1Toggled)
+		{
+			digitalWrite(RELAY_LOOP1_PIN, HIGH);
+			delay(RELAY_SWITCH_DELAY);
+		}
+		else
+		{
+			digitalWrite(RELAY_LOOP1_PIN, LOW);
+		}
 	}
 
 	if (loop2Toggled != preset.Loop2)
 	{
 		loop2Toggled = preset.Loop2;
-		digitalWrite(RELAY_LOOP2_PIN, loop2Toggled ? HIGH : LOW);
+
+		if (loop2Toggled)
+		{
+			digitalWrite(RELAY_LOOP2_PIN, HIGH);
+			delay(RELAY_SWITCH_DELAY);
+		}
+		else
+		{
+			digitalWrite(RELAY_LOOP2_PIN, LOW);
+		}
 	}
 
 	if (loop3Toggled != preset.Loop3)
 	{
 		loop3Toggled = preset.Loop3;
-		digitalWrite(RELAY_LOOP3_PIN, loop3Toggled ? HIGH : LOW);
+
+		if (loop3Toggled)
+		{
+			digitalWrite(RELAY_LOOP3_PIN, HIGH);
+			delay(RELAY_SWITCH_DELAY);
+		}
+		else
+		{
+			digitalWrite(RELAY_LOOP3_PIN, LOW);
+		}
 	}
 
 	if (loop4Toggled != preset.Loop4)
 	{
 		loop4Toggled = preset.Loop4;
-		digitalWrite(RELAY_LOOP4_PIN, loop4Toggled ? HIGH : LOW);
+
+		if (loop4Toggled)
+		{
+			digitalWrite(RELAY_LOOP4_PIN, HIGH);
+			delay(RELAY_SWITCH_DELAY);
+		}
+		else
+		{
+			digitalWrite(RELAY_LOOP4_PIN, LOW);
+		}
 	}
 }
 
 void Relays::UnBypass()
 {
 	digitalWrite(RELAY_BYPASS_PIN, HIGH);
+	delay(RELAY_SWITCH_DELAY);
 }
 
-void Relays::Bypass() 
+void Relays::Bypass()
 {
-  digitalWrite(RELAY_BYPASS_PIN, LOW);
+	digitalWrite(RELAY_BYPASS_PIN, LOW);
 }

@@ -1,49 +1,93 @@
 #include "PresetStore.h"
 #include <EEPROM.h>
 
-/*
+// Magic byte to identify initialized presets
+#define PRESET_MAGIC_BYTE 0xAA
+#define EEPROM_SIZE 4096
 
-EEPROM address format
-----------------------
-0 = bass, preset 0, bank 0
-1 = mid
-2 = treble
-3 = boost
-4 = ampswitch
-5 = loop 1
-6 = loop 2
-7 = loop 3
-8 = loop 4
-9 reserved
-10 = cut, preset 1, bank 0
-11 = ...
-
-*/
-
-void PresetStore::Write(int bank, int preset, Preset &payload)
-{
-	int startingAddress = getStartingAddress(bank, preset);
-
-	EEPROM.put(startingAddress, payload);
-	BankPresets[preset] = payload;
+Preset getDefaultPreset() {
+    Preset preset;
+    preset.Bass = 512;      // Center position
+    preset.Middle = 512;
+    preset.Treble = 512;
+    preset.Volume = 512;
+    preset.AmpSwitch = false;
+    preset.Loop1 = false;
+    preset.Loop2 = false;
+    preset.Loop3 = false;
+    preset.Loop4 = false;
+    return preset;
 }
 
-Preset PresetStore::Read(int preset)
-{
-	return BankPresets[preset];
+bool PresetStore::isValidAddress(int address, int size) {
+    return (address >= 0) && ((address + size) < EEPROM_SIZE);
 }
 
-void PresetStore::PreloadBank(int bank)
-{
-	for(int i = 0; i < NUM_PRESETS_PER_BANK; i++)
-	{
-		int startingAddress = getStartingAddress(bank, i);
-		EEPROM.get(startingAddress, BankPresets[i]);
-	}
+bool PresetStore::isValidBankPreset(int bank, int preset) {
+    return (bank >= 0) && (preset >= 0) && (preset < NUM_PRESETS_PER_BANK);
 }
 
-int PresetStore::getStartingAddress(int bank, int preset)
-{
-	int startingAddress = (bank * NUM_PRESETS_PER_BANK + preset) * NUM_BYTES_PER_PRESET;
-	return startingAddress;
+int PresetStore::getStartingAddress(int bank, int preset) {
+    return (bank * NUM_PRESETS_PER_BANK + preset) * NUM_BYTES_PER_PRESET;
+}
+
+void PresetStore::Write(int bank, int preset, Preset &payload) {
+    if (!isValidBankPreset(bank, preset)) {
+        return;  // Silent fail for invalid bank/preset
+    }
+
+    int startingAddress = getStartingAddress(bank, preset);
+    
+    if (!isValidAddress(startingAddress, NUM_BYTES_PER_PRESET)) {
+        return;  // Silent fail for invalid address
+    }
+
+    // Write magic byte first
+    EEPROM.write(startingAddress, PRESET_MAGIC_BYTE);
+    
+    // Write preset data after magic byte
+    EEPROM.put(startingAddress + 1, payload);
+    
+    // Update cache
+    if (bank == currentBank) {
+        BankPresets[preset] = payload;
+    }
+}
+
+Preset PresetStore::Read(int preset) {
+    if (!isValidBankPreset(currentBank, preset)) {
+        return getDefaultPreset();
+    }
+    
+    return BankPresets[preset];
+}
+
+void PresetStore::PreloadBank(int bank) {
+    if (bank == currentBank) {
+        return;  // Bank already loaded
+    }
+
+    currentBank = bank;
+    
+    for (int i = 0; i < NUM_PRESETS_PER_BANK; i++) {
+        int startingAddress = getStartingAddress(bank, i);
+        
+        if (!isValidAddress(startingAddress, NUM_BYTES_PER_PRESET)) {
+            BankPresets[i] = getDefaultPreset();
+            continue;
+        }
+
+        // Check magic byte
+        byte magicByte = EEPROM.read(startingAddress);
+        if (magicByte != PRESET_MAGIC_BYTE) {
+            BankPresets[i] = getDefaultPreset();
+            continue;
+        }
+
+        // Read actual preset data
+        EEPROM.get(startingAddress + 1, BankPresets[i]);
+        
+        // Add delay between reads to prevent power issues
+        delay(50);
+    }
 }
