@@ -50,10 +50,10 @@ static void applyPreset(Preset &preset)
 
 static void loadPreset(int footswitchIndex)
 {
-
   int presetIdx = footswitches.GetPresetIndex(footswitchIndex);
   auto preset = presetStore.Read(presetIdx);
 
+  D_println(presetIdx);
   applyPreset(preset);
 
   editTracker.SetPreset(preset);
@@ -63,7 +63,9 @@ static void loadPreset(int footswitchIndex)
 
 static void handleFootswitchPress(OneButton *oneButton)
 {
-  D_println("Footswitch pressed");
+  D_print("Footswitch pressed:");
+  D_println(oneButton->pin());
+  
   int footswitchIndex = footswitches.PinToIndex(oneButton->pin());
   loadPreset(footswitchIndex);
 }
@@ -71,10 +73,11 @@ static void handleFootswitchPress(OneButton *oneButton)
 static void handleFootswitchLongPress(OneButton *oneButton)
 {
   D_println("Footswitch long pressed");
-  int footswitchIndex = footswitches.PinToIndex(oneButton->pin());
 
   auto preset = editTracker.GetPreset();
   presetStore.Write(banks.GetCurrentBank(), banks.GetCurrentPreset(), preset);
+
+  int footswitchIndex = banks.GetCurrentPreset() / 2;
 
   footswitches.HandleLongPress(footswitchIndex);
 }
@@ -105,8 +108,6 @@ static void handlePushbuttonPress(OneButton *oneButton)
 
 void setup()
 {
-  pinMode(RESET_PIN, INPUT_PULLUP);  // Protect reset pin from noise
-
   D_SerialBegin(9600);
   D_println("*** LCD EQ PEDAL ***");
 
@@ -123,27 +124,15 @@ void setup()
   footswitch2.setup(FOOTSWITCH_2_PIN, INPUT_PULLUP, true);
   footswitch3.setup(FOOTSWITCH_3_PIN, INPUT_PULLUP, true);
 
-  // Set press threshold for all footswitches
-  footswitch1.setPressMs(LONG_PRESS_THRESHOLD);
-  footswitch2.setPressMs(LONG_PRESS_THRESHOLD);
-  footswitch3.setPressMs(LONG_PRESS_THRESHOLD);
-
-  footswitch1.setClickMs(SINGLE_PRESS_THRESHOLD);
-  footswitch2.setClickMs(SINGLE_PRESS_THRESHOLD);
-  footswitch3.setClickMs(SINGLE_PRESS_THRESHOLD);
-
   // Attach callbacks for footswitches
-  footswitch1.attachClick(handleFootswitchPress, &footswitch1);
-  footswitch1.attachLongPressStart(handleFootswitchLongPress, &footswitch1);
-  footswitch1.attachDoubleClick(handleFootswitchDoublePress, &footswitch1);
+  footswitch1.attachPress(handleFootswitchPress, &footswitch1);
+  footswitch1.attachLongPressStart(handleFootswitchDoublePress, &footswitch1);
 
-  footswitch2.attachClick(handleFootswitchPress, &footswitch2);
-  footswitch2.attachLongPressStart(handleFootswitchLongPress, &footswitch2);
-  footswitch2.attachDoubleClick(handleFootswitchDoublePress, &footswitch2);
+  footswitch2.attachPress(handleFootswitchPress, &footswitch2);
+  footswitch2.attachLongPressStart(handleFootswitchDoublePress, &footswitch2);
 
-  footswitch3.attachClick(handleFootswitchPress, &footswitch3);
-  footswitch3.attachLongPressStart(handleFootswitchLongPress, &footswitch3);
-  footswitch3.attachDoubleClick(handleFootswitchDoublePress, &footswitch3);
+  footswitch3.attachPress(handleFootswitchPress, &footswitch3);
+  footswitch3.attachLongPressStart(handleFootswitchDoublePress, &footswitch3);
 
   // Setup other buttons
   ampSwitchButton.setup(AMP_SWITCH_BUTTON_PIN, INPUT_PULLUP, true);
@@ -153,11 +142,13 @@ void setup()
   loop4Button.setup(LOOP4_BUTTON_PIN, INPUT_PULLUP, true);
 
   // Attach callbacks for other buttons
-  ampSwitchButton.attachPress(handlePushbuttonPress, &ampSwitchButton);
-  loop1Button.attachPress(handlePushbuttonPress, &loop1Button);
-  loop2Button.attachPress(handlePushbuttonPress, &loop2Button);
-  loop3Button.attachPress(handlePushbuttonPress, &loop3Button);
-  loop4Button.attachPress(handlePushbuttonPress, &loop4Button);
+  ampSwitchButton.attachClick(handlePushbuttonPress, &ampSwitchButton);
+  ampSwitchButton.attachLongPressStart(handleFootswitchLongPress, &ampSwitchButton);
+  
+  loop1Button.attachClick(handlePushbuttonPress, &loop1Button);
+  loop2Button.attachClick(handlePushbuttonPress, &loop2Button);
+  loop3Button.attachClick(handlePushbuttonPress, &loop3Button);
+  loop4Button.attachClick(handlePushbuttonPress, &loop4Button);
 
   presetStore.PreloadBank(banks.GetCurrentBank());
   loadPreset(0);

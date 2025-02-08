@@ -10,6 +10,7 @@ Relays::Relays()
 	pinMode(RELAY_LOOP4_PIN, OUTPUT);
 
 	digitalWrite(RELAY_BYPASS_PIN, HIGH);
+  digitalWrite(RELAY_AMPSWITCH_PIN, HIGH);
 }
 
 void Relays::Toggle(Preset &preset)

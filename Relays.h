@@ -10,7 +10,7 @@
 #define RELAY_LOOP3_PIN 18
 #define RELAY_LOOP4_PIN 19
 
-#define RELAY_SWITCH_DELAY 50
+#define RELAY_SWITCH_DELAY 20
 
 class Relays
 {

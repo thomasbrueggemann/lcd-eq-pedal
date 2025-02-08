@@ -40,7 +40,7 @@ int Footswitches::GetPresetIndex(int footswitchIndex)
 	case 1:
 		return footswitch2State == ACTIVE_B || footswitch2State == INACTIVE ? 2 : 3;
 	case 2:
-		return footswitch3State == ACTIVE_B || footswitch2State == INACTIVE ? 4 : 5;
+		return footswitch3State == ACTIVE_B || footswitch3State == INACTIVE ? 4 : 5;
 	}
 }
 

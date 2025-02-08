@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 
-#define MAX_BANKS 9
+#define MAX_BANKS 8
 
 class Banks
 {
